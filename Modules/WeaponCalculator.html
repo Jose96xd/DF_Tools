@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DF Weapon Calculator</title>
+</head>
+
+<body>
+    <h1>Weapon Calculator</h1>
+    <p>For calculating weapon related stuff such as momentum, penetration and similar.</p>
+    <h2>How to use:</h2>
+    <p>There are two ways of using this: You either use vanilla weapons/attacks/materials/races by selecting them in the
+        drop down. Or you introduce the details by hand.</p>
+
+    <a href="/index.html">Back</a>
+
+    <form onsubmit="return false;" id="offense_characteristics">
+
+        <h2>Attacker characteristics</h2>
+        <p>This dropdown is to load the sizes and characteristics of the average vanilla races.
+            If you want to try a modded race you can specify their stats in there.
+        </p>
+        <label for="attacker_race">Attacker race</label>
+        <select name="attacker_race" id="attacker_race">
+        </select><br>
+        <label for="attacker_skill_lvl">Attacker Skill Level (skills above level 14 don't have any further
+            impact)</label>
+        <input type="number" id="attacker_skill_lvl" name="attacker_skill_lvl" value="1" min="0" max="14"><br>
+        <div>
+            <label for="BODY_SIZE">Race average size</label>
+            <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data_column="BODY_SIZE"><br>
+            <label for="attacker_BODY_SIZE">Attacker specific size</label>
+            <input type="number" id="attacker_BODY_SIZE" name="attacker_BODY_SIZE" value="0" min="0"
+                data_column="BODY_SIZE"><br>
+            <label for="STRENGTH">Attacker Strength</label>
+            <input type="number" id="STRENGTH" name="STRENGTH" value="0" min="0" data_column="STRENGTH"><br>
+        </div>
+
+        <h2>Weapon characteristics</h2>
+        <p>This dropdown is to load the values of the vanilla weapons. Bellow, you can write specific characteristics in
+            case the weapon is not on the list, or you want to create a weapon yourself.</p>
+        <label for="weapon_name">Weapon</label>
+        <select name="weapon_name" id="weapon_name" onchange="">
+        </select><br>
+        <label for="attack_name">Weapon</label>
+        <select name="attack_name" id="attack_name" onchange="">
+        </select><br>
+        <label for="weapon_quality">Weapon Quality</label>
+        <select name="weapon_quality" id="weapon_quality">
+            <option value="1" selected>Basic</option>
+            <option value="1.2">-Well-crafted-</option>
+            <option value="1.4">+Finely-crafted+</option>
+            <option value="1.6">*Superior*</option>
+            <option value="1.8">≡Exceptional≡</option>
+            <option value="2">☼Masterful☼</option>
+            <option value="3">Artifact</option>
+        </select><br>
+        <div>
+            <label for="w_SIZE">Weapon size</label>
+            <input type="number" id="w_SIZE" name="w_SIZE" value="800" data_column="SIZE"><br>
+            <div id="attack_characteristics">
+                <label for="attack_contact_area">Attack contact_area</label>
+                <input type="number" id="attack_contact_area" name="attack_contact_area" value="40000"
+                    data_column="attack_contact_area"><br>
+                <label for="attack_velocity_modifier">Attack velocity modifier</label>
+                <input type="number" id="attack_velocity_modifier" name="attack_velocity_modifier" value="1250"
+                    data_column="attack_velocity_modifier"><br>
+                <label for="blunt_weapon">Blunt weapon</label>
+                <input type="checkbox" id="blunt_weapon" name="blunt_weapon" value="true"
+                    data_column="blunt_attack"><br>
+            </div>
+        </div>
+
+        <h2>Weapon material</h2>
+        <p>This dropdown is to load the values of the vanilla material. Bellow, you can write specific characteristics
+            in case the material is not on the list, or you want to create a material yourself.</p>
+        <label for="weapon_material">Weapon metal</label>
+        <select name="weapon_material" id="weapon_material">
+        </select><br>
+        <div>
+            <label for="wm_SOLID_DENSITY">Weapon material density</label>
+            <input type="number" id="wm_SOLID_DENSITY" name="wm_SOLID_DENSITY" value="7850"
+                data_column="SOLID_DENSITY"><br>
+            <label for="wm_SHEAR_YIELD">Weapon material Shear Yield</label>
+            <input type="number" id="wm_SHEAR_YIELD" name="wm_SHEAR_YIELD" value="430000" data_column="SHEAR_YIELD"><br>
+            <label for="wm_SHEAR_FRACTURE">Weapon material Shear Fracture</label>
+            <input type="number" id="wm_SHEAR_FRACTURE" name="wm_SHEAR_FRACTURE" value="720000"
+                data_column="SHEAR_FRACTURE"><br>
+            <label for="wm_IMPACT_YIELD">Weapon material Impact Yield</label>
+            <input type="number" id="wm_IMPACT_YIELD" name="wm_IMPACT_YIELD" value="1505000"
+                data_column="IMPACT_YIELD"><br>
+            <label for="wm_IMPACT_FRACTURE">Weapon material Impact Fracture</label>
+            <input type="number" id="wm_IMPACT_FRACTURE" name="wm_IMPACT_FRACTURE" value="2520000"
+                data_column="IMPACT_FRACTURE"><br>
+            <label for="wm_MAX_EDGE">Weapon material Max edge (sharpness)</label>
+            <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data_column="MAX_EDGE"><br>
+        </div>
+
+    </form>
+
+    <h2>Armor layers</h2>
+    <p>To specify various armor layers and their characteristics.</p>
+    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous layers. </p>
+    <button name="Add armor layer" id="add_armor_layer_button">Add armor layer</button><br>
+    <div id="armor_layers">
+    </div>
+
+    <h2>Output:</h2>
+    <button name="calculate" id="calculate_button">Calculate</button>
+    <p id="output">original</p>
+
+    <script src="/js/calculator_page.js" type="module"></script>
+</body>
+
+</html>
