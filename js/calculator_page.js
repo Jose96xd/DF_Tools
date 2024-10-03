@@ -1,5 +1,5 @@
 import {get_data, load_dropdown, attack_belongs_to_weapon, default_text_treatment, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
-import {calculate_momentum} from "./Weapon_Calculator.js";
+import {calculate_momentum, attack_process_calculation} from "./Weapon_Calculator.js";
 
 let materials_data = null;
 let materials_columns = null;
@@ -32,6 +32,7 @@ async function initial_load() {
     const offense_characteristics_form = document.getElementById("offense_characteristics");
     const add_armor_layer_button = document.getElementById("add_armor_layer_button");
     const armor_layers_div = document.getElementById("armor_layers");
+    const results_list = document.getElementById("results_list");
 
     load_dropdown({data:races_data, dropdown:race_dropdown, starting_selected_id:"DWARF"});
     race_dropdown.addEventListener("change", function(){
@@ -65,27 +66,40 @@ async function initial_load() {
 
     const calculate_button = document.getElementById("calculate_button");
     calculate_button.addEventListener("click", function(){
-        execute_calculation(offense_characteristics_form, get_armor_forms(armor_layers_div));
+        execute_calculation(offense_characteristics_form, results_list, get_armor_forms(armor_layers_div));
     });
     
     
 }
-function execute_calculation(offense_characteristics_form, armor_forms=null){
-    const characteristics = offense_characteristics_form.elements;
+function execute_calculation(offense_characteristics_form, results_list, armor_forms=null){
+    const attack_data = offense_characteristics_form.elements;
+
+    console.log(offense_characteristics_form)
     
-    const momentum = calculate_momentum(characteristics["attacker_skill_lvl"].value,
-        characteristics["BODY_SIZE"].value, characteristics["attacker_BODY_SIZE"].value,
-        characteristics["STRENGTH"].value, characteristics["attack_velocity_modifier"].value,
-        characteristics["w_SIZE"].value, characteristics["wm_SOLID_DENSITY"].value
+    const momentum = calculate_momentum(attack_data["attacker_skill_lvl"].value,
+        attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value,
+        attack_data["STRENGTH"].value, attack_data["attack_velocity_modifier"].value,
+        attack_data["w_SIZE"].value, attack_data["wm_SOLID_DENSITY"].value
     );
     console.log(momentum);
-
+    
     if (armor_forms.length > 0){
         for (const armor_layer of armor_forms){
             console.log(armor_layer);
+            
+            const layer_data = armor_layer.element;
 
-
-
+            const attack_history = attack_process_calculation(
+                momentum, attack_data["attacker_skill_lvl"].value, attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value, attack_data["STRENGTH"].value,
+                attack_data["weapon_quality"].value, attack_data["w_SIZE"].value, attack_data["attack_contact_area"].value, attack_data["attack_velocity_modifier"].value, attack_data["blunt_attack"].value,
+                attack_data["wm_SOLID_DENSITY"].value, attack_data["wm_SHEAR_YIELD"].value, attack_data["wm_SHEAR_FRACTURE"].value, attack_data["wm_IMPACT_YIELD"].value, attack_data["wm_MAX_EDGE"].value,
+                layer_data["armor_quality"].value, layer_data["rigid_armor"].value, layer_data["am_SOLID_DENSITY"].value,
+                layer_data["am_IMPACT_YIELD"].value, layer_data["am_IMPACT_FRACTURE"].value, layer_data["am_IMPACT_STRAIN_AT_YIELD"].value,
+                layer_data["am_SHEAR_YIELD"].value, layer_data["am_SHEAR_FRACTURE"].value, layer_data["am_SHEAR_STRAIN_AT_YIELD"].value
+            
+            );
+            console.log(attack_history);
+            
         }
     }
 
@@ -95,7 +109,7 @@ function add_armor_layer(armor_layers_div, id) {
     new_armor_layer.id = "armor_layer_form_" + id;
 
     const [quality_label, quality_dropdown] = create_dropdown("armor_quality", id);
-    const [rigid_armor_label, rigid_armor_checkbox] = create_input_field("rigid_armor", id, "checkbox"); 
+    const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({name:"rigid_armor", id:id, type:"checkbox"}); 
     const [am_label, am_dropdown] = create_dropdown("armor_material", id);
     const am_characteristics_div = create_am_characteristics_div(id);
 
@@ -133,7 +147,7 @@ function create_am_characteristics_div(id){
     input_fields.id = "am_layer_characteristics_" + id;
     for (const field_type in am_fields){
         am_fields[field_type].forEach((field) => {
-            const [am_label, am_field] = create_input_field("Armor material "+field, id, field_type, field);
+            const [am_label, am_field] = create_input_field({name:"am_"+field, innerText:"Armor Material " + field, id:id, type:field_type, data_column:field});
             input_fields.append(am_label, am_field, document.createElement('br'));
         });
     }

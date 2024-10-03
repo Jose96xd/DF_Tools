@@ -46,14 +46,20 @@ export function clear_dropdown(dropdown) {
     dropdown.innerHTML = null;
 }
 export function capitalize_words(phrase) {
-    const capitalize_phrase = phrase.toLowerCase().trim().split(" ");
-    capitalize_phrase.forEach((word, index) => {
-        capitalize_phrase[index] = word.charAt(0).toUpperCase() + word.slice(1);
+    const capitalized_phrase = phrase.toLowerCase().trim().split(" ");
+    capitalized_phrase.forEach((word, index) => {
+        capitalized_phrase[index] = word.charAt(0).toUpperCase() + word.slice(1);
     });
-    return capitalize_phrase.join(" ");
+    return capitalized_phrase.join(" ");
+
+}
+export function capitalize_phrase(phrase){
+    let capitalize_phrase = phrase.toLowerCase().trim();
+    capitalize_phrase = capitalize_phrase.charAt(0).toUpperCase() + capitalize_phrase.slice(1);
+    return capitalize_phrase;
 }
 export function default_text_treatment(text) {
-    return capitalize_words(text.trim().replaceAll(/[^a-zA-Z0-9]/gi, " "));
+    return capitalize_phrase(text.trim().replaceAll(/[^a-zA-Z0-9]/gi, " "));
 }
 export function create_dropdown(name, id=null, treatment_function = default_text_treatment) {
     const dropdown_id = name + "_" + id.toString();
@@ -66,11 +72,14 @@ export function create_dropdown(name, id=null, treatment_function = default_text
 
     return [label_element, dropdown_element]
 }
-export function create_input_field(name, id, type, data_column=null) {
+export function create_input_field({name, innerText=null, id, type, data_column=null} = {}) {
     const field_id = name + "_" + id;
     const label = document.createElement("label");
     label.for = field_id;
     label.innerHTML = default_text_treatment(name);
+    if (!(innerText === null)){
+        label.innerHTML = default_text_treatment(innerText);
+    }
 
     const input_field = document.createElement("input");
     input_field.type = type;
