@@ -14,7 +14,7 @@ export function bounce_condition(w_SIZE, attack_contact_area, wm_IMPACT_YIELD, a
 }
 export function smash_layer_condition(momentum, attack_contact_area, armor_quality, am_IMPACT_YIELD, am_IMPACT_FRACTURE){
     const condition_value = (2 * am_IMPACT_FRACTURE - am_IMPACT_YIELD) * (2 + 0.4*armor_quality) * attack_contact_area;
-    return [momentum >= condition_value, condition_value];
+    return [(momentum >= condition_value) === "true", condition_value];
 }
 export function momentum_reduction(momentum, blunt_attack, successful_penetration, rigid_armor, am_IMPACT_STRAIN_AT_YIELD, am_SHEAR_STRAIN_AT_YIELD){
     let final_momentum = 0;
@@ -44,6 +44,7 @@ export function attack_process_calculation(
     }
     const attack_history = {};
     attack_history["initial_momentum"] = momentum;
+    attack_history["starts_as_blunt_attack"] = blunt_attack;
 
     if (!blunt_attack){
         const [pass_cut_condition, cut_condition_value] = cut_layer_condition(momentum, weapon_quality, attack_contact_area, wm_SHEAR_YIELD, wm_SHEAR_FRACTURE, wm_MAX_EDGE, armor_quality, am_SHEAR_YIELD, am_SHEAR_FRACTURE);

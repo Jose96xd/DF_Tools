@@ -16,8 +16,6 @@ let races_columns = null;
 const quality_tuples = [["Basic", 1], ["-Well-crafted-", 1.2], ["+Finely-crafted+", 1.4], ["*Superior*", 1.6], ["≡Exceptional≡", 1.8], ["☼Masterful☼", 2], ["Artifact", 3]]
 const am_fields = { "number":["SOLID_DENSITY", "IMPACT_YIELD", "IMPACT_FRACTURE", "IMPACT_STRAIN_AT_YIELD", "SHEAR_YIELD", "SHEAR_FRACTURE", "SHEAR_STRAIN_AT_YIELD"] }
 
-let current_armor_layer_id = 0; // If you read this: Yeah this is probably not a very good way to do this but it will work... for now.
-
 async function initial_load() {
 
     [races_columns, races_data] = await get_data("/Data/races_data.csv");
@@ -32,6 +30,8 @@ async function initial_load() {
     const offense_characteristics_form = document.getElementById("offense_characteristics");
     const add_armor_layer_button = document.getElementById("add_armor_layer_button");
     const armor_layers_div = document.getElementById("armor_layers");
+
+    const momentum_paragraph = document.getElementById("momentum_paragraph");
     const results_list = document.getElementById("results_list");
 
     load_dropdown({data:races_data, dropdown:race_dropdown, starting_selected_id:"DWARF"});
@@ -60,21 +60,17 @@ async function initial_load() {
     wm_dropdown.dispatchEvent(new Event("change"));
 
     add_armor_layer_button.addEventListener("click", function(){
-        add_armor_layer(armor_layers_div, current_armor_layer_id);
-        current_armor_layer_id += 1;
+        add_armor_layer(armor_layers_div);
     });
 
     const calculate_button = document.getElementById("calculate_button");
     calculate_button.addEventListener("click", function(){
-        execute_calculation(offense_characteristics_form, results_list, get_armor_forms(armor_layers_div));
+        execute_calculation(offense_characteristics_form, momentum_paragraph, results_list, get_armor_forms(armor_layers_div));
     });
-    
-    
 }
-function execute_calculation(offense_characteristics_form, results_list, armor_forms=null){
+function execute_calculation(offense_characteristics_form, momentum_paragraph, results_list, armor_forms=null){
+    results_list.innerHTML = "";
     const attack_data = offense_characteristics_form.elements;
-
-    console.log(offense_characteristics_form)
     
     const momentum = calculate_momentum(attack_data["attacker_skill_lvl"].value,
         attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value,
@@ -82,34 +78,90 @@ function execute_calculation(offense_characteristics_form, results_list, armor_f
         attack_data["w_SIZE"].value, attack_data["wm_SOLID_DENSITY"].value
     );
     console.log(momentum);
+    momentum_paragraph.innerHTML = `Attack starts with ${momentum.toFixed(3)} momentum.`;
+    
     
     if (armor_forms.length > 0){
-        for (const armor_layer of armor_forms){
-            console.log(armor_layer);
-            
-            const layer_data = armor_layer.element;
+        let layer_momentum = momentum;
+        let blunt_attack = (attack_data["blunt_attack"].value === "true");
+        for (const [layer_num, armor_layer] of armor_forms.entries()){
+
+            console.log(layer_num, armor_layer);
+            const layer_data = armor_layer.elements;
 
             const attack_history = attack_process_calculation(
-                momentum, attack_data["attacker_skill_lvl"].value, attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value, attack_data["STRENGTH"].value,
-                attack_data["weapon_quality"].value, attack_data["w_SIZE"].value, attack_data["attack_contact_area"].value, attack_data["attack_velocity_modifier"].value, attack_data["blunt_attack"].value,
+                layer_momentum, attack_data["attacker_skill_lvl"].value, attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value, attack_data["STRENGTH"].value,
+                attack_data["weapon_quality"].value, attack_data["w_SIZE"].value, attack_data["attack_contact_area"].value, attack_data["attack_velocity_modifier"].value, blunt_attack,
                 attack_data["wm_SOLID_DENSITY"].value, attack_data["wm_SHEAR_YIELD"].value, attack_data["wm_SHEAR_FRACTURE"].value, attack_data["wm_IMPACT_YIELD"].value, attack_data["wm_MAX_EDGE"].value,
                 layer_data["armor_quality"].value, layer_data["rigid_armor"].value, layer_data["am_SOLID_DENSITY"].value,
                 layer_data["am_IMPACT_YIELD"].value, layer_data["am_IMPACT_FRACTURE"].value, layer_data["am_IMPACT_STRAIN_AT_YIELD"].value,
                 layer_data["am_SHEAR_YIELD"].value, layer_data["am_SHEAR_FRACTURE"].value, layer_data["am_SHEAR_STRAIN_AT_YIELD"].value
             
             );
+
+            const layer_text = document.createElement("li");
+            layer_text.innerHTML = get_armor_layer_text_result(attack_history, layer_num);
+            results_list.append(layer_text);
+
+            layer_momentum = attack_history["final_momentum"];
+            blunt_attack = blunt_attack || attack_history["blunt_forever"];
             console.log(attack_history);
             
+            if(stop_layer_simulation(attack_history)){
+                break;
+            }
         }
     }
-
 }
-function add_armor_layer(armor_layers_div, id) {
+function stop_layer_simulation(attack_history){
+    const attack_has_bounced = ("bounce_condition" in attack_history) & !attack_history["bounce_condition"];
+    const no_more_momentum = (attack_history["final_momentum"] <= (10**-4));
+    return attack_has_bounced || no_more_momentum;
+}
+function get_armor_layer_text_result(attack_history, layer_number){
+    const attack_type = attack_history["starts_as_blunt_attack"] ? "Blunt" : "Edge";
+    const initial_momentum = attack_history["initial_momentum"]
+
+    let result_text = [`${attack_type} attack hits layer ${layer_number} with ${initial_momentum.toFixed(3)} momentum.`];
+
+    const cut_condition = attack_history["cut_condition"];
+    if(!attack_history["starts_as_blunt_attack"]){
+
+        const cut_success_text = cut_condition[0] ? ["", "surpassing"]: ["doesn't ", "failing"];
+        result_text.push(`Edge attack ${cut_success_text[0]}punctures/severe the layer ${cut_success_text[1]} the cut condition of ${cut_condition[1].toFixed(3)}.`);
+
+        if (!cut_condition[0])
+            result_text.push("Attack becomes blunt for failing.");
+    }
+    if(attack_history["starts_as_blunt_attack"] || !cut_condition[0]){
+        const bounce_condition = attack_history["bounce_condition"]
+        result_text.push(bounce_condition ? "Attack doesn't bounce.": "Attack bounces.");
+
+        if (bounce_condition){
+            const smash_condition = attack_history["smash_condition"];
+            const smash_success_text = smash_condition[0] ? ["", "surpassing"]: ["doesn't ", "failing"];
+            result_text.push(`Blunt attack ${smash_success_text[0]}punctures/severe the layer ${smash_success_text[1]} the smash condition of ${smash_condition[1].toFixed(3)}.`);
+            if (!smash_condition[0])
+                result_text.push("Attack becomes blunt forever for failing.");
+        }
+    }
+    if(!("bounce_condition" in attack_history) || (attack_history["bounce_condition"])){
+        result_text.push(`Final momentum after hit: ${attack_history["final_momentum"].toFixed(3)}`);
+    }
+    return result_text.join(" ");
+}
+function add_armor_layer(armor_layers_div) {
+    const id = armor_layers_div.children.length;
     const new_armor_layer = document.createElement("form");
     new_armor_layer.id = "armor_layer_form_" + id;
 
+    const layer_name = document.createElement("p");
+    layer_name.innerHTML = "Armor layer " + id;
+    new_armor_layer.append(layer_name);
+
     const [quality_label, quality_dropdown] = create_dropdown("armor_quality", id);
-    const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({name:"rigid_armor", id:id, type:"checkbox"}); 
+    const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({name:"rigid_armor", id:id, type:"checkbox"});
+    rigid_armor_checkbox.checked = true;
     const [am_label, am_dropdown] = create_dropdown("armor_material", id);
     const am_characteristics_div = create_am_characteristics_div(id);
 
@@ -117,7 +169,9 @@ function add_armor_layer(armor_layers_div, id) {
     delete_button.id = "delete_layer_" + id;
     delete_button.name = "delete_armor_layer"; 
     delete_button.innerHTML = "Delete armor layer"
-    delete_button.addEventListener("click", function(){new_armor_layer.remove();});
+    delete_button.addEventListener("click", function(){
+        updated_forms(armor_layers_div.children, new_armor_layer);    
+    });
 
     new_armor_layer.append(quality_label, quality_dropdown, document.createElement("br"));
     new_armor_layer.append(rigid_armor_label, rigid_armor_checkbox, document.createElement("br"));
@@ -132,6 +186,31 @@ function add_armor_layer(armor_layers_div, id) {
     am_dropdown.dispatchEvent(new Event("change"));
     
     armor_layers_div.append(new_armor_layer);
+}
+function updated_forms(forms, deleted_form){
+    console.log(forms);
+    const starting_index = Array.from(forms).indexOf(deleted_form);
+    deleted_form.remove();
+    for(let i = starting_index; i < forms.length; i++){
+        forms[i].id = updated_attribute(forms[i].id, i);
+        const layer_name = forms[i].getElementsByTagName("p")[0];
+        layer_name.innerHTML = "Armor layer " + i;
+        
+        const child_elements = forms[i].getElementsByTagName("*");
+        console.log(child_elements);
+        for(const element of child_elements){
+            if(element.hasAttribute("id"))
+                element.setAttribute("id", updated_attribute(element.getAttribute("id"), i));
+            if(element.hasAttribute("for"))
+                element.setAttribute("for", updated_attribute(element.getAttribute("for"), i));
+            
+        }
+    }
+}
+function updated_attribute(attribute, new_id_number){
+    const new_id = attribute.split("_");
+    new_id[new_id.length - 1] = new_id_number;
+    return new_id.join("_");
 }
 function get_armor_forms(armor_layers_div){
     const armor_forms = [];

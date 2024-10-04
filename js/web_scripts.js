@@ -75,7 +75,7 @@ export function create_dropdown(name, id=null, treatment_function = default_text
 export function create_input_field({name, innerText=null, id, type, data_column=null} = {}) {
     const field_id = name + "_" + id;
     const label = document.createElement("label");
-    label.for = field_id;
+    label.setAttribute("for", field_id);
     label.innerHTML = default_text_treatment(name);
     if (!(innerText === null)){
         label.innerHTML = default_text_treatment(innerText);
