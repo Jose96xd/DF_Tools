@@ -19,10 +19,10 @@ const am_fields = { "number":["SOLID_DENSITY", "IMPACT_YIELD", "IMPACT_FRACTURE"
 
 async function initial_load() {
 
-    [races_columns, races_data] = await get_data("/Data/races_data.csv");
-    [weapons_columns, weapons_data] = await get_data("/Data/weapons_data.csv");
-    [attacks_columns, attacks_data] = await get_data("/Data/attacks_data.csv");
-    [materials_columns, materials_data] = await get_data("/Data/materials_data.csv");
+    [races_columns, races_data] = await get_data("./Data/races_data.csv");
+    [weapons_columns, weapons_data] = await get_data("./Data/weapons_data.csv");
+    [attacks_columns, attacks_data] = await get_data("./Data/attacks_data.csv");
+    [materials_columns, materials_data] = await get_data("./Data/materials_data.csv");
 
     const race_dropdown = document.getElementById("attacker_race");
     const weapon_dropdown = document.getElementById("weapon_name");
