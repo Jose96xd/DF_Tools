@@ -1,6 +1,7 @@
 import {get_data, load_dropdown, attack_belongs_to_weapon, default_text_treatment, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
 import {calculate_momentum, attack_process_calculation} from "./Weapon_Calculator.js";
 
+
 let materials_data = null;
 let materials_columns = null;
 
@@ -77,16 +78,13 @@ function execute_calculation(offense_characteristics_form, momentum_paragraph, r
         attack_data["STRENGTH"].value, attack_data["attack_velocity_modifier"].value,
         attack_data["w_SIZE"].value, attack_data["wm_SOLID_DENSITY"].value
     );
-    console.log(momentum);
     momentum_paragraph.innerHTML = `Attack starts with ${momentum.toFixed(3)} momentum.`;
-    
     
     if (armor_forms.length > 0){
         let layer_momentum = momentum;
         let blunt_attack = (attack_data["blunt_attack"].value === "true");
         for (const [layer_num, armor_layer] of armor_forms.entries()){
 
-            console.log(layer_num, armor_layer);
             const layer_data = armor_layer.elements;
 
             const attack_history = attack_process_calculation(
@@ -105,7 +103,6 @@ function execute_calculation(offense_characteristics_form, momentum_paragraph, r
 
             layer_momentum = attack_history["final_momentum"];
             blunt_attack = blunt_attack || attack_history["blunt_forever"];
-            console.log(attack_history);
             
             if(stop_layer_simulation(attack_history)){
                 break;
@@ -141,7 +138,7 @@ function get_armor_layer_text_result(attack_history, layer_number){
             const smash_condition = attack_history["smash_condition"];
             const smash_success_text = smash_condition[0] ? ["", "surpassing"]: ["doesn't ", "failing"];
             result_text.push(`Blunt attack ${smash_success_text[0]}punctures/severe the layer ${smash_success_text[1]} the smash condition of ${smash_condition[1].toFixed(3)}.`);
-            if (!smash_condition[0])
+            if ((!smash_condition[0]) & (!attack_history["starts_as_blunt_attack"]))
                 result_text.push("Attack becomes blunt forever for failing.");
         }
     }
