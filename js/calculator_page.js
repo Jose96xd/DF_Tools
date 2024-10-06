@@ -1,4 +1,4 @@
-import {get_data, load_dropdown, attack_belongs_to_weapon, default_text_treatment, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
+import {get_data, load_dropdown, attack_belongs_to_weapon, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
 import {calculate_momentum, attack_process_calculation} from "./Weapon_Calculator.js";
 
 
