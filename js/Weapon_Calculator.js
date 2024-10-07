@@ -1,65 +1,62 @@
-export function calculate_momentum(attacker_skill_lvl, BODY_SIZE, attacker_BODY_SIZE, STRENGTH, attack_velocity_modifier, w_SIZE, wm_SOLID_DENSITY){
-    attacker_skill_lvl = Math.max(attacker_skill_lvl-1, 0);
-    const skill_impact = 1 + (Math.min(attacker_skill_lvl, 14) * 1/14);
-    attack_velocity_modifier /= 10**3;
-    const momentum = skill_impact * BODY_SIZE * STRENGTH * attack_velocity_modifier / (10**6 * (1 + attacker_BODY_SIZE / (wm_SOLID_DENSITY * w_SIZE)));
-    return momentum;
+export function calculate_momentum(attacker, weapon, attack){
+    const skill_impact = attacker.get_skill_impact();
+    const adjusted_speed = attack.get_adjusted_velocity();
+    return skill_impact * attacker.race_body_size * attacker.strength * adjusted_speed / (10**6 * (1 + attacker.creature_body_size / (weapon.material.solid_density * weapon.size)));
 }
-export function cut_layer_condition(momentum, weapon_quality, attack_contact_area, wm_SHEAR_YIELD, wm_SHEAR_FRACTURE, wm_MAX_EDGE, armor_quality, am_SHEAR_YIELD, am_SHEAR_FRACTURE){
-    const condition_value = (am_SHEAR_YIELD/wm_SHEAR_YIELD + (attack_contact_area+1) * am_SHEAR_FRACTURE/wm_SHEAR_FRACTURE) * (10 + 2*armor_quality) / (wm_MAX_EDGE * weapon_quality);
-    return [momentum >= condition_value, condition_value];
-}
-export function bounce_condition(w_SIZE, attack_contact_area, wm_IMPACT_YIELD, am_SOLID_DENSITY){
-    return (2 * w_SIZE * wm_IMPACT_YIELD > attack_contact_area * am_SOLID_DENSITY);
-}
-export function smash_layer_condition(momentum, attack_contact_area, armor_quality, am_IMPACT_YIELD, am_IMPACT_FRACTURE){
-    const condition_value = (2 * am_IMPACT_FRACTURE - am_IMPACT_YIELD) * (2 + 0.4*armor_quality) * attack_contact_area;
-    return [(momentum >= condition_value) === "true", condition_value];
-}
-export function momentum_reduction(momentum, blunt_attack, successful_penetration, rigid_armor, am_IMPACT_STRAIN_AT_YIELD, am_SHEAR_STRAIN_AT_YIELD){
-    let final_momentum = 0;
-    const STRAIN_to_use = (blunt_attack ? am_IMPACT_STRAIN_AT_YIELD : am_SHEAR_STRAIN_AT_YIELD)
-    
-    if (rigid_armor)
-        final_momentum = momentum * (STRAIN_to_use / 50000);
-    else
-        final_momentum = momentum;
+export function cut_layer_condition(momentum, weapon, armor, attack_index=0){
+    const w_material = weapon.material;
+    const attack = weapon.attacks[attack_index];
+    const a_material = armor.material;
 
-    if (successful_penetration)
-        final_momentum = momentum - (momentum * 0.05);
+    const first_part = (a_material.shear_yield/w_material.shear_yield + (attack.contact_area+1) * a_material.shear_fracture/w_material.shear_fracture)
+    const second_part = (10 + 2 * armor.quality);
+    const third_part = (w_material.max_edge * weapon.quality);
 
-    return final_momentum;
+    const cut_condition_value = first_part * second_part / third_part
+
+    return [momentum >= cut_condition_value, cut_condition_value];
 }
-export function attack_process_calculation(
-        momentum=null, attacker_skill_lvl, BODY_SIZE, attacker_BODY_SIZE, STRENGTH, 
-        weapon_quality, w_SIZE, attack_contact_area, attack_velocity_modifier, blunt_attack,
-        wm_SOLID_DENSITY, wm_SHEAR_YIELD, wm_SHEAR_FRACTURE, wm_IMPACT_YIELD, wm_MAX_EDGE,
-        armor_quality, rigid_armor, am_SOLID_DENSITY,
-        am_IMPACT_YIELD, am_IMPACT_FRACTURE, am_IMPACT_STRAIN_AT_YIELD,
-        am_SHEAR_YIELD, am_SHEAR_FRACTURE, am_SHEAR_STRAIN_AT_YIELD
-    ){
-    
-    if (momentum === null){
-        momentum = calculate_momentum(attacker_skill_lvl, BODY_SIZE, attacker_BODY_SIZE, STRENGTH, attack_velocity_modifier, w_SIZE, wm_SOLID_DENSITY);
-    }
+export function bounce_condition(weapon, a_material, attack_index=0){
+    const weapon_bounce_score = weapon.get_bounce_value(attack_index);
+    return [weapon_bounce_score > a_material.solid_density, weapon_bounce_score];
+}
+export function smash_layer_condition(momentum, armor, contact_area){
+    const a_material = armor.material;
+    const smash_condition_value = (2 * a_material.impact_fracture - a_material.impact_yield) * (2 + 0.4*armor.quality) * contact_area;
+    return [momentum >= smash_condition_value, smash_condition_value];
+}
+export function attack_process_calculation(momentum=null, attacker, blunt_attack, armor, attack_index=0){
+    const weapon = attacker.weapon;
+    const attack = weapon.attacks[attack_index];
+    const a_material = armor.material;
     const attack_history = {};
+
+    if (momentum === null)
+        momentum = attacker.get_momentum();
+
     attack_history["initial_momentum"] = momentum;
     attack_history["starts_as_blunt_attack"] = blunt_attack;
+    attack_history["successful_penetration"] = true;
 
-    if (!blunt_attack){
-        const [pass_cut_condition, cut_condition_value] = cut_layer_condition(momentum, weapon_quality, attack_contact_area, wm_SHEAR_YIELD, wm_SHEAR_FRACTURE, wm_MAX_EDGE, armor_quality, am_SHEAR_YIELD, am_SHEAR_FRACTURE);
-        attack_history["cut_condition"] = [pass_cut_condition, cut_condition_value];
+    if(!blunt_attack){
+        const [passed_cut_condition, cut_condition_value] = cut_layer_condition(momentum, weapon, armor, attack_index);
+        attack_history["passed_cut_condition"] = passed_cut_condition
+        attack_history["cut_condition_value"] = cut_condition_value;
     }
-    if (blunt_attack || !attack_history["cut_condition"][0]){
-        const pass_bounce_condition = bounce_condition(w_SIZE, attack_contact_area, wm_IMPACT_YIELD, am_SOLID_DENSITY);
-        attack_history["bounce_condition"] = pass_bounce_condition;
-        if (pass_bounce_condition){
-            const [pass_smash_layer, smash_condition_value] = smash_layer_condition(momentum, attack_contact_area, armor_quality, am_IMPACT_YIELD, am_IMPACT_FRACTURE);
-            attack_history["smash_condition"] = [pass_smash_layer, smash_condition_value];
-            attack_history["blunt_forever"] = !pass_smash_layer;
+    if(blunt_attack || !attack_history["passed_cut_condition"]){
+        const [passed_bounce_condition, bounce_score] = bounce_condition(weapon, a_material, attack_index);
+        attack_history["passed_bounce_condition"] = passed_bounce_condition;
+        attack_history["bounce_score"] = bounce_score;
+        attack_history["armor_density"] = a_material.solid_density;
+        if (passed_bounce_condition){
+            const [passed_smash_condition, smash_condition_value] = smash_layer_condition(momentum, armor, attack.contact_area);
+            attack_history["passed_smash_condition"] = passed_smash_condition;
+            attack_history["smash_condition_value"] = smash_condition_value;
+            attack_history["successful_penetration"] = passed_bounce_condition;
+            if (!blunt_attack)
+                attack_history["blunt_forever"] = !passed_smash_condition;
         }
     }
-    const successful_penetration = !("smash_condition" in attack_history) || (attack_history["smash_condition"][0]);
-    attack_history["final_momentum"] = momentum_reduction(momentum, blunt_attack, successful_penetration, rigid_armor, am_IMPACT_STRAIN_AT_YIELD, am_SHEAR_STRAIN_AT_YIELD);
+    attack_history["final_momentum"] = armor.momentum_reduction(momentum, blunt_attack, attack_history["successful_penetration"]);
     return attack_history;
 }

@@ -1,6 +1,10 @@
 import {get_data, load_dropdown, attack_belongs_to_weapon, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
-import {calculate_momentum, attack_process_calculation} from "./Weapon_Calculator.js";
-
+import {attack_process_calculation} from "./Weapon_Calculator.js";
+import { Creature } from "./Classes/creature.js";
+import { Material } from "./Classes/material.js";
+import { Weapon } from "./Classes/weapon.js";
+import { Attack } from "./Classes/Attack.js";
+import { Armor } from "./Classes/Armor.js";
 
 let materials_data = null;
 let materials_columns = null;
@@ -66,37 +70,45 @@ async function initial_load() {
 
     const calculate_button = document.getElementById("calculate_button");
     calculate_button.addEventListener("click", function(){
-        execute_calculation(offense_characteristics_form, momentum_paragraph, results_list, get_armor_forms(armor_layers_div));
+        execute_calculation(new FormData(offense_characteristics_form), momentum_paragraph, results_list, get_armor_forms(armor_layers_div));
     });
 }
-function execute_calculation(offense_characteristics_form, momentum_paragraph, results_list, armor_forms=null){
+function execute_calculation(attack_data, momentum_paragraph, results_list, armor_forms=null){
     results_list.innerHTML = "";
-    const attack_data = offense_characteristics_form.elements;
+    momentum_paragraph.innerHTML = "";
+
+    const w_material = new Material({
+        id:"w_material", solid_density:attack_data.get("wm_SOLID_DENSITY"), impact_yield:attack_data.get("wm_IMPACT_YIELD"),
+        shear_yield:attack_data.get("wm_SHEAR_YIELD"), shear_fracture:attack_data.get("wm_SHEAR_FRACTURE"), max_edge:attack_data.get("wm_MAX_EDGE")
+    });
+    const attack = new Attack({
+        id:"attack", contact_area:attack_data.get("attack_contact_area"),
+        velocity_modifier:attack_data.get("attack_velocity_modifier"), is_blunt:attack_data.has("blunt_attack")
+    });
+    const weapon = new Weapon({id:"weapon", size:attack_data.get("w_SIZE"), quality:attack_data.get("weapon_quality"), material:w_material, attacks:[attack]});
+    const attacker = new Creature({
+        id:"attacker", skill_level:attack_data.get("attacker_skill_lvl"), race_body_size:attack_data.get("BODY_SIZE"),
+        creature_body_size:attack_data.get("attacker_BODY_SIZE"), strength:attack_data.get("STRENGTH"), weapon:weapon
+    });
+
+    const momentum = attacker.get_momentum(0);
     
-    const momentum = calculate_momentum(attack_data["attacker_skill_lvl"].value,
-        attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value,
-        attack_data["STRENGTH"].value, attack_data["attack_velocity_modifier"].value,
-        attack_data["w_SIZE"].value, attack_data["wm_SOLID_DENSITY"].value
-    );
     momentum_paragraph.innerHTML = `Attack starts with ${momentum.toFixed(3)} momentum.`;
     
     if (armor_forms.length > 0){
         let layer_momentum = momentum;
-        let blunt_attack = (attack_data["blunt_attack"].value === "true");
-        for (const [layer_num, armor_layer] of armor_forms.entries()){
+        let blunt_attack = (attack.is_blunt);
+        for (const [layer_num, armor_layer_form] of armor_forms.entries()){
 
-            const layer_data = armor_layer.elements;
-
-            const attack_history = attack_process_calculation(
-                layer_momentum, attack_data["attacker_skill_lvl"].value, attack_data["BODY_SIZE"].value, attack_data["attacker_BODY_SIZE"].value, attack_data["STRENGTH"].value,
-                attack_data["weapon_quality"].value, attack_data["w_SIZE"].value, attack_data["attack_contact_area"].value, attack_data["attack_velocity_modifier"].value, blunt_attack,
-                attack_data["wm_SOLID_DENSITY"].value, attack_data["wm_SHEAR_YIELD"].value, attack_data["wm_SHEAR_FRACTURE"].value, attack_data["wm_IMPACT_YIELD"].value, attack_data["wm_MAX_EDGE"].value,
-                layer_data["armor_quality"].value, layer_data["rigid_armor"].value, layer_data["am_SOLID_DENSITY"].value,
-                layer_data["am_IMPACT_YIELD"].value, layer_data["am_IMPACT_FRACTURE"].value, layer_data["am_IMPACT_STRAIN_AT_YIELD"].value,
-                layer_data["am_SHEAR_YIELD"].value, layer_data["am_SHEAR_FRACTURE"].value, layer_data["am_SHEAR_STRAIN_AT_YIELD"].value
+            //const layer_data = armor_layer.elements;
+            const layer_data = new FormData(armor_layer_form);            
+            const a_material = new Material({id:"armor_material", solid_density:layer_data.get("am_SOLID_DENSITY"),
+                impact_yield:layer_data.get("am_IMPACT_YIELD"), impact_fracture:layer_data.get("am_IMPACT_FRACTURE"), impact_strain_at_yield:layer_data.get("am_IMPACT_STRAIN_AT_YIELD"),
+                shear_yield:layer_data.get("am_SHEAR_YIELD"), shear_fracture:layer_data.get("am_SHEAR_FRACTURE"), shear_strain_at_yield:layer_data.get("am_SHEAR_STRAIN_AT_YIELD")
+            });
+            const armor_layer = new Armor({id:"armor", quality:layer_data.get("armor_quality"), material:a_material, is_rigid:layer_data.has("is_rigid")});
+            const attack_history = attack_process_calculation(layer_momentum, attacker, blunt_attack, armor_layer, 0);
             
-            );
-
             const layer_text = document.createElement("li");
             layer_text.innerHTML = get_armor_layer_text_result(attack_history, layer_num);
             results_list.append(layer_text);
@@ -121,24 +133,24 @@ function get_armor_layer_text_result(attack_history, layer_number){
 
     let result_text = [`${attack_type} attack hits layer ${layer_number} with ${initial_momentum.toFixed(3)} momentum.`];
 
-    const cut_condition = attack_history["cut_condition"];
+    const [passed_cut_condition, cut_condition_value] = [attack_history["passed_cut_condition"], attack_history["cut_condition_value"]];
     if(!attack_history["starts_as_blunt_attack"]){
 
-        const cut_success_text = cut_condition[0] ? ["", "surpassing"]: ["doesn't ", "failing"];
-        result_text.push(`Edge attack ${cut_success_text[0]}punctures/severe the layer ${cut_success_text[1]} the cut condition of ${cut_condition[1].toFixed(3)}.`);
+        const cut_success_text = passed_cut_condition ? ["", "surpassing"]: ["doesn't ", "failing"];
+        result_text.push(`Edge attack ${cut_success_text[0]}punctures/severe the layer ${cut_success_text[1]} the cut condition of ${cut_condition_value.toFixed(3)}.`);
 
-        if (!cut_condition[0])
+        if (!passed_cut_condition)
             result_text.push("Attack becomes blunt for failing.");
     }
-    if(attack_history["starts_as_blunt_attack"] || !cut_condition[0]){
-        const bounce_condition = attack_history["bounce_condition"]
-        result_text.push(bounce_condition ? "Attack doesn't bounce.": "Attack bounces.");
+    if(attack_history["starts_as_blunt_attack"] || !passed_cut_condition){
+        const passed_bounce_condition = attack_history["passed_bounce_condition"];
+        result_text.push(passed_bounce_condition ? "Attack doesn't bounce.": "Attack bounces.");
 
-        if (bounce_condition){
-            const smash_condition = attack_history["smash_condition"];
-            const smash_success_text = smash_condition[0] ? ["", "surpassing"]: ["doesn't ", "failing"];
-            result_text.push(`Blunt attack ${smash_success_text[0]}punctures/severe the layer ${smash_success_text[1]} the smash condition of ${smash_condition[1].toFixed(3)}.`);
-            if ((!smash_condition[0]) & (!attack_history["starts_as_blunt_attack"]))
+        if (passed_bounce_condition){
+            const [passed_smash_condition, smash_condition_value] = [attack_history["passed_smash_condition"], attack_history["smash_condition_value"]];
+            const smash_success_text = passed_smash_condition ? ["", "surpassing"]: ["doesn't ", "failing"];
+            result_text.push(`Blunt attack ${smash_success_text[0]}punctures/severe the layer ${smash_success_text[1]} the smash condition of ${smash_condition_value.toFixed(3)}.`);
+            if ((!passed_smash_condition) & (!attack_history["starts_as_blunt_attack"]))
                 result_text.push("Attack becomes blunt forever for failing.");
         }
     }
@@ -185,7 +197,6 @@ function add_armor_layer(armor_layers_div) {
     armor_layers_div.append(new_armor_layer);
 }
 function updated_forms(forms, deleted_form){
-    console.log(forms);
     const starting_index = Array.from(forms).indexOf(deleted_form);
     deleted_form.remove();
     for(let i = starting_index; i < forms.length; i++){
@@ -194,7 +205,6 @@ function updated_forms(forms, deleted_form){
         layer_name.innerHTML = "Armor layer " + i;
         
         const child_elements = forms[i].getElementsByTagName("*");
-        console.log(child_elements);
         for(const element of child_elements){
             if(element.hasAttribute("id"))
                 element.setAttribute("id", updated_attribute(element.getAttribute("id"), i));
