@@ -3,7 +3,7 @@ import {attack_process_calculation} from "../Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
 import { Weapon } from "../Classes/Weapon.js";
 import { Attack } from "../Classes/Attack.js";
-import { Material } from "../Classes/material.js";
+import { Material } from "../Classes/Material.js";
 import { Armor } from "../Classes/Armor.js";
 
 let materials_data = null;
