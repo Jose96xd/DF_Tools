@@ -11,10 +11,10 @@ export async function get_data(path) {
 export function attack_belongs_to_weapon(weapon_id, attack_id) {
     return (weapon_id === attack_id);
 }
-export function load_dropdown({data, dropdown, starting_selected_id = null, filling_column = 0, value_column = null, load_condition = null, treatment_function = default_text_treatment} = {}) {
+export function load_dropdown({data, dropdown, starting_selected_id = null, id_column=0, filling_column = 0, value_column = null, load_condition = null, treatment_function = default_text_treatment} = {}) {
     clear_dropdown(dropdown);
     data.forEach((element, index) => {
-        const element_id = element[0];
+        const element_id = element[id_column];
         if (load_condition === null || load_condition(element_id)) {
             const filling_text = (treatment_function === null) ? element[filling_column] : treatment_function(element[filling_column]);
             const value = (value_column === null) ? index : element[value_column];
