@@ -1,10 +1,10 @@
-import {get_data, load_dropdown, attack_belongs_to_weapon, updated_form_fields, create_dropdown, create_input_field} from "./web_scripts.js";
-import {attack_process_calculation} from "./Weapon_Calculator.js";
-import { Creature } from "./Classes/Creature.js";
-import { Material } from "./Classes/Material.js";
-import { Weapon } from "./Classes/Weapon.js";
-import { Attack } from "./Classes/Attack.js";
-import { Armor } from "./Classes/Armor.js";
+import {get_data, load_dropdown, attack_belongs_to_weapon, updated_form_fields, create_dropdown, create_input_field} from "../web_scripts.js";
+import {attack_process_calculation} from "../Weapon_Calculator.js";
+import { Creature } from "../Classes/Creature.js";
+import { Weapon } from "../Classes/Weapon.js";
+import { Attack } from "../Classes/Attack.js";
+import { Material } from "../Classes/material.js";
+import { Armor } from "../Classes/Armor.js";
 
 let materials_data = null;
 let materials_columns = null;
