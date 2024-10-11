@@ -11,19 +11,23 @@ export async function get_data(path) {
 export function attack_belongs_to_weapon(weapon_id, attack_id) {
     return (weapon_id === attack_id);
 }
+export function add_option_to_dropdown(dropdown, value, text, selected=false){
+    const option = new Option(text, value);
+    option.selected = selected;
+    dropdown.add(option);
+}
 export function load_dropdown({data, dropdown, starting_selected_id = null, id_column=0, filling_column = 0, value_column = null, load_condition = null, treatment_function = default_text_treatment} = {}) {
     clear_dropdown(dropdown);
     data.forEach((element, index) => {
         const element_id = element[id_column];
-        if (load_condition === null || load_condition(element_id)) {
+        if (load_condition === null || load_condition(element)) {
             const filling_text = (treatment_function === null) ? element[filling_column] : treatment_function(element[filling_column]);
             const value = (value_column === null) ? index : element[value_column];
-            const new_option = new Option(filling_text, value);
-            new_option.setAttribute("element_id", element_id);
-            if ((starting_selected_id === null && dropdown.length < 1) || (starting_selected_id === element_id)) {
-                new_option.selected = true;
+            let selected = dropdown.length < 1;
+            if (!(starting_selected_id === null)){
+                selected = (starting_selected_id == element_id);
             }
-            dropdown.add(new_option);
+            add_option_to_dropdown(dropdown, value, filling_text, selected);
         }
     });
 }
@@ -45,14 +49,6 @@ export function updated_form_fields(columns, data, data_row_index, elements_to_u
 export function clear_dropdown(dropdown) {
     dropdown.innerHTML = null;
 }
-export function capitalize_words(phrase) {
-    const capitalized_phrase = phrase.toLowerCase().trim().split(" ");
-    capitalized_phrase.forEach((word, index) => {
-        capitalized_phrase[index] = word.charAt(0).toUpperCase() + word.slice(1);
-    });
-    return capitalized_phrase.join(" ");
-
-}
 export function capitalize_phrase(phrase){
     let capitalize_phrase = phrase.toLowerCase().trim();
     capitalize_phrase = capitalize_phrase.charAt(0).toUpperCase() + capitalize_phrase.slice(1);
@@ -60,6 +56,9 @@ export function capitalize_phrase(phrase){
 }
 export function default_text_treatment(text) {
     return capitalize_phrase(text.trim().replaceAll(/[^a-zA-Z0-9]/gi, " "));
+}
+export function default_id_treatment(text){
+    return text.trim().replaceAll(" ", "_").toUpperCase();
 }
 export function create_dropdown(name, id=null, treatment_function = default_text_treatment) {
     const dropdown_id = name + "_" + id.toString();
