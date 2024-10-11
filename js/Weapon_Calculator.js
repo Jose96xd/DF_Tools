@@ -18,11 +18,13 @@ export function cut_layer_condition(momentum, weapon, armor, attack_index=0){
 }
 export function bounce_condition(weapon, a_material, attack_index=0){
     const weapon_bounce_score = weapon.get_bounce_value(attack_index);
-    return [weapon_bounce_score > a_material.solid_density, weapon_bounce_score];
+    return [weapon_bounce_score > (a_material.solid_density / 10**3), weapon_bounce_score];
 }
 export function smash_layer_condition(momentum, armor, contact_area){
     const a_material = armor.material;
-    const smash_condition_value = (2 * a_material.impact_fracture - a_material.impact_yield) * (2 + 0.4*armor.quality) * contact_area;
+    const adjusted_impact_fracture = a_material.impact_fracture / 10**6;
+    const adjusted_impact_yield = a_material.impact_yield / 10**6;
+    const smash_condition_value = (2 * adjusted_impact_fracture - adjusted_impact_yield) * (2 + 0.4*armor.quality) * contact_area;
     return [momentum >= smash_condition_value, smash_condition_value];
 }
 export function attack_process_calculation(momentum=null, attacker, blunt_attack, armor, attack_index=0){

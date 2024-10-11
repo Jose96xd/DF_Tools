@@ -11,6 +11,7 @@ export class Weapon extends BasicElement{
     }
 
     get_bounce_value(attack_index=0){
-        return (2 * this.size * this.material.impact_yield) / this.attacks[attack_index].contact_area;
+        const adjusted_impact_yield = this.material.impact_yield / 10**6;
+        return (2 * this.size * adjusted_impact_yield) / this.attacks[attack_index].contact_area;
     }
 }
