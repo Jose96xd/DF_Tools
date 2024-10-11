@@ -23,10 +23,10 @@ const am_fields = { "number":["SOLID_DENSITY", "IMPACT_YIELD", "IMPACT_FRACTURE"
 
 async function initial_load() {
 
-    [races_columns, races_data] = await get_data(".././Data/races_data.csv");
-    [weapons_columns, weapons_data] = await get_data(".././Data/weapons_data.csv");
-    [attacks_columns, attacks_data] = await get_data(".././Data/attacks_data.csv");
-    [materials_columns, materials_data] = await get_data(".././Data/materials_data.csv");
+    [races_columns, races_data] = await get_data("../Data/races_data.csv");
+    [weapons_columns, weapons_data] = await get_data("../Data/weapons_data.csv");
+    [attacks_columns, attacks_data] = await get_data("../Data/attacks_data.csv");
+    [materials_columns, materials_data] = await get_data("../Data/materials_data.csv");
 
     const race_dropdown = document.getElementById("attacker_race");
     const weapon_dropdown = document.getElementById("weapon_name");
@@ -44,7 +44,7 @@ async function initial_load() {
         updated_form_fields(races_columns, races_data, race_dropdown.value, offense_characteristics_form.elements);
     });
 
-    const aux_function = function (attack_id) { return attack_belongs_to_weapon(weapons_data[weapon_dropdown.value][0], attack_id); }
+    const aux_function = function (attack) { return attack_belongs_to_weapon(weapons_data[weapon_dropdown.value][0], attack[0]); }
     load_dropdown({data:weapons_data, dropdown:weapon_dropdown, filling_column:1, starting_selected_id:"ITEM_WEAPON_AXE_BATTLE"});
     weapon_dropdown.addEventListener("change", function(){
         updated_form_fields(weapons_columns, weapons_data, weapon_dropdown.value, offense_characteristics_form.elements);
@@ -210,7 +210,6 @@ function updated_forms(forms, deleted_form){
                 element.setAttribute("id", updated_attribute(element.getAttribute("id"), i));
             if(element.hasAttribute("for"))
                 element.setAttribute("for", updated_attribute(element.getAttribute("for"), i));
-            
         }
     }
 }
