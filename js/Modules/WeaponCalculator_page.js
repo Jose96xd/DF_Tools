@@ -1,5 +1,6 @@
-import {get_data, load_dropdown, attack_belongs_to_weapon, updated_form_fields, create_dropdown, create_input_field} from "../web_scripts.js";
-import {attack_process_calculation} from "../Weapon_Calculator.js";
+import {get_data_csv, load_dropdown, updated_form_fields, create_dropdown, create_input_field} from "../Web/Web_Scripts.js";
+import { attack_belongs_to_weapon } from "../DF_Related/DF_Scripts.js";
+import {attack_process_calculation} from "../DF_Related/Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
 import { Weapon } from "../Classes/Weapon.js";
 import { Attack } from "../Classes/Attack.js";
@@ -23,10 +24,10 @@ const am_fields = { "number":["SOLID_DENSITY", "IMPACT_YIELD", "IMPACT_FRACTURE"
 
 async function initial_load() {
 
-    [races_columns, races_data] = await get_data("../Data/races_data.csv");
-    [weapons_columns, weapons_data] = await get_data("../Data/weapons_data.csv");
-    [attacks_columns, attacks_data] = await get_data("../Data/attacks_data.csv");
-    [materials_columns, materials_data] = await get_data("../Data/materials_data.csv");
+    [races_columns, races_data] = await get_data_csv("../Data/races_data.csv");
+    [weapons_columns, weapons_data] = await get_data_csv("../Data/weapons_data.csv");
+    [attacks_columns, attacks_data] = await get_data_csv("../Data/attacks_data.csv");
+    [materials_columns, materials_data] = await get_data_csv("../Data/materials_data.csv");
 
     const race_dropdown = document.getElementById("attacker_race");
     const weapon_dropdown = document.getElementById("weapon_name");
@@ -166,12 +167,12 @@ function add_armor_layer(armor_layers_div) {
 
     const layer_name = document.createElement("p");
     layer_name.innerHTML = "Armor layer " + id;
-    new_armor_layer.append(layer_name);
+    new_armor_layer.append(layer_name); 
 
-    const [quality_label, quality_dropdown] = create_dropdown("armor_quality", id);
+    const [quality_label, quality_dropdown] = create_dropdown({name:"armor_quality", id:id});
     const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({name:"rigid_armor", id:id, type:"checkbox"});
     rigid_armor_checkbox.checked = true;
-    const [am_label, am_dropdown] = create_dropdown("armor_material", id);
+    const [am_label, am_dropdown] = create_dropdown({name:"armor_material", id:id});
     const am_characteristics_div = create_am_characteristics_div(id);
 
     const delete_button = document.createElement("button");

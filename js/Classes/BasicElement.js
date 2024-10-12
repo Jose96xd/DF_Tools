@@ -1,4 +1,4 @@
-import { default_text_treatment } from "../web_scripts.js";
+import { default_text_treatment } from "../Web/Web_Scripts.js";
 
 export class BasicElement{
     constructor({id, name=null}={}){

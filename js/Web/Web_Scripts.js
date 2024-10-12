@@ -1,4 +1,4 @@
-export async function get_data(path) {
+export async function get_data_csv(path) {
     const response = await fetch(path);
     const aux = (await response.text()).trim().split("\n");
     const columns = aux[0].trim().split(",");
@@ -7,9 +7,6 @@ export async function get_data(path) {
     }
     );
     return [columns, data]
-}
-export function attack_belongs_to_weapon(weapon_id, attack_id) {
-    return (weapon_id === attack_id);
 }
 export function add_option_to_dropdown(dropdown, value, text, selected=false){
     const option = new Option(text, value);
@@ -60,16 +57,19 @@ export function default_text_treatment(text) {
 export function default_id_treatment(text){
     return text.trim().replaceAll(" ", "_").toUpperCase();
 }
-export function create_dropdown(name, id=null, treatment_function = default_text_treatment) {
-    const dropdown_id = name + "_" + id.toString();
-    const label_element = document.createElement("label");
-    label_element.setAttribute("for", dropdown_id);
-    label_element.innerHTML = treatment_function(name);
-    const dropdown_element = document.createElement("select");
-    dropdown_element.name = name;
-    dropdown_element.id = dropdown_id;
+export function create_dropdown({name, id=null, text=null, treatment_function=default_text_treatment}={}){
+    const id_text = name+id.toString();
+    const filling_text = (text === null) ? treatment_function(name) : text;
 
-    return [label_element, dropdown_element]
+    const label = document.createElement("label");
+    label.setAttribute("for", id_text);
+    label.innerHTML = filling_text;
+
+    const dropdown = document.createElement("select");
+    dropdown.name = name;
+    dropdown.id = id_text;
+
+    return [label, dropdown];
 }
 export function create_input_field({name, innerText=null, id, type, data_column=null} = {}) {
     const field_id = name + "_" + id;
