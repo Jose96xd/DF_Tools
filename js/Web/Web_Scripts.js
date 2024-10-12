@@ -89,3 +89,25 @@ export function create_input_field({name, innerText=null, id, type, data_column=
     }
     return [label, input_field];
 }
+export function create_table({id=null, headers=null, data=null}){
+    const table = document.createElement("table");
+
+    if (!(headers === null)){
+        const row = table.insertRow();
+
+        for (const element of headers){
+            const cell = row.insertCell();
+            cell.innerHTML = element;
+        }
+    }
+    if (!(data === null)){
+        for (const data_row in data){
+            const row = table.insertRow();
+            for (const element in data_row){
+                const cell = row.insertCell();
+                cell.innerHTML = element;
+            }
+        }
+    }
+    return table;
+}
