@@ -4,6 +4,8 @@ Tools for modders and players.
 ## Direct links
 - [DF Tools](https://jose96xd.github.io/DF_Tools/):
     - [Weapon Calculator](https://jose96xd.github.io/DF_Tools/Modules/WeaponCalculator.html): To calculate weapon related stats like momentum, penetration and similar against armor.
+    - Layer Permit Checker (on development): To calculate the clothes and armor a creature can wear and help with modded clothes and layouts.
+
 
 I will be adding more as I finish the ones in development. Also, as I learn more js and CSS I will try to make them prettier and more efficient.
 For now, all the js is native with no external code, so I think it should (at least) be smallish.
