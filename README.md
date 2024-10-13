@@ -51,4 +51,3 @@ A tool to check how different armor pieces interact with each other. It helps to
 
 #### TODO list
 - Add more body distributions (currently only humanoid distributions are considered for armor accumulative volume).
-- Model the contact area on body parts and the actual penetration depth.
