@@ -1,5 +1,5 @@
-# DFCalculator
-Calculator for various DF related stuff.
+# DF Tools
+Tools for modders and players.
 
 ## Features:
 - In development:
