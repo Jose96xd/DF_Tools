@@ -10,4 +10,7 @@ export class Attack extends BasicElement{
     get_adjusted_velocity(){
         return this.velocity_modifier / 10**3;
     }
+    get_adjusted_contact_area(){
+        return this.contact_area / 10**3;
+    }
 }

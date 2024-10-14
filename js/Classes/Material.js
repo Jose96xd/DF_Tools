@@ -13,5 +13,8 @@ export class Material extends BasicElement{
         this.shear_strain_at_yield = shear_strain_at_yield;
         this.max_edge = max_edge;
     }
+    get_adjusted_max_edge(){
+        return this.max_edge / 10**4
+    }
 
 }

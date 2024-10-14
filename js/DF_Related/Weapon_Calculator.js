@@ -8,11 +8,11 @@ export function cut_layer_condition(momentum, weapon, armor, attack_index=0){
     const attack = weapon.attacks[attack_index];
     const a_material = armor.material;
 
-    const first_part = (a_material.shear_yield/w_material.shear_yield + (attack.contact_area+1) * a_material.shear_fracture/w_material.shear_fracture)
+    const first_part = (a_material.shear_yield/w_material.shear_yield + ((attack.get_adjusted_contact_area()+1) * a_material.shear_fracture/w_material.shear_fracture))
     const second_part = (10 + 2 * armor.quality);
-    const third_part = (w_material.max_edge * weapon.quality);
+    const third_part = (w_material.get_adjusted_max_edge() * weapon.quality);
 
-    const cut_condition_value = first_part * second_part / third_part
+    const cut_condition_value = (first_part * second_part) / third_part
 
     return [momentum >= cut_condition_value, cut_condition_value];
 }
@@ -51,7 +51,7 @@ export function attack_process_calculation(momentum=null, attacker, blunt_attack
         attack_history["bounce_score"] = bounce_score;
         attack_history["armor_density"] = a_material.solid_density;
         if (passed_bounce_condition){
-            const [passed_smash_condition, smash_condition_value] = smash_layer_condition(momentum, armor, attack.contact_area);
+            const [passed_smash_condition, smash_condition_value] = smash_layer_condition(momentum, armor, attack.get_adjusted_contact_area());
             attack_history["passed_smash_condition"] = passed_smash_condition;
             attack_history["smash_condition_value"] = smash_condition_value;
             attack_history["successful_penetration"] = passed_bounce_condition;
