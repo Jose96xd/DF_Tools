@@ -33,7 +33,7 @@
         <h2>Attacker characteristics</h2>
         <p>Use the dropdowns to load vanilla stats. You can edit the values to represent mod materials.
         </p>
-        <label for="attacker_race">Attacker Race</label>
+        <label for="attacker_race">Attacker race</label>
         <select name="attacker_race" id="attacker_race">
         </select><br>
         <label for="attacker_skill_lvl">Attacker skill level (levels above level 14 don't have any further
@@ -65,6 +65,14 @@
             <option value="2">☼Masterful☼</option>
             <option value="3">Artifact</option>
         </select><br>
+        <label for="attack_type">Attack type</label>
+        <select name="attack_type" id="attack_type">
+            <option value="1" selected>Normal</option>
+            <option value="2">Heavy</option>
+            <option value="0.5">Quick</option>
+        </select><br>
+        <label for="prone_state">Is the target prone?</label>
+        <input type="checkbox" name="prone_state" id="prone_state" value="true">
         <div>
             <label for="w_SIZE">Weapon size</label>
             <input type="number" id="w_SIZE" name="w_SIZE" value="800" data_column="SIZE"><br>
@@ -96,7 +104,6 @@
             <label for="wm_MAX_EDGE">Weapon material max edge (sharpness)</label>
             <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data_column="MAX_EDGE"><br>
         </div>
-
     </form>
 
     <h2>Armor characteristics</h2>
@@ -111,9 +118,7 @@
     <button name="calculate" id="calculate_button">Calculate</button>
     <p id="momentum_paragraph"></p>
     <ul id="results_list">
-
     </ul>
-
 
     <h2>Material details</h2>
     <p>Some materials share the same characteristics and to avoid having 1 million options some groups have been made.</p>

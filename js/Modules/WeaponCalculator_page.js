@@ -1,4 +1,4 @@
-import {get_data_csv, load_dropdown, updated_form_fields, create_dropdown, create_input_field} from "../Web/Web_Scripts.js";
+import {get_data_csv, load_dropdown, updated_form_fields, create_dropdown, create_input_field, default_text_treatment} from "../Web/Web_Scripts.js";
 import { attack_belongs_to_weapon } from "../DF_Related/DF_Scripts.js";
 import {attack_process_calculation} from "../DF_Related/Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
@@ -66,7 +66,7 @@ async function initial_load() {
     wm_dropdown.dispatchEvent(new Event("change"));
 
     add_armor_layer_button.addEventListener("click", function(){
-        add_armor_layer(armor_layers_div);
+        add_layer(armor_layers_div);
     });
 
     const calculate_button = document.getElementById("calculate_button");
@@ -92,7 +92,12 @@ function execute_calculation(attack_data, momentum_paragraph, results_list, armo
         creature_body_size:attack_data.get("attacker_BODY_SIZE"), strength:attack_data.get("STRENGTH"), weapon:weapon
     });
 
-    const momentum = attacker.get_momentum(0);
+    const attack_type_multiplier = attack_data.get("attack_type");
+    const target_is_prone = (attack_data.has("prone_state"));
+    
+    let momentum = attacker.get_momentum(0);
+    momentum *= attack_type_multiplier;
+    momentum *= (target_is_prone ? 2 : 1);
     
     momentum_paragraph.innerHTML = `Attack starts with ${momentum.toFixed(3)} momentum.`;
     
@@ -160,14 +165,16 @@ function get_armor_layer_text_result(attack_history, layer_number){
     }
     return result_text.join(" ");
 }
-function add_armor_layer(armor_layers_div) {
+function add_layer(armor_layers_div, layer_type="armor"){
+    const layer_name = default_text_treatment(layer_type);
+
     const id = armor_layers_div.children.length;
     const new_armor_layer = document.createElement("form");
-    new_armor_layer.id = "armor_layer_form_" + id;
+    new_armor_layer.id = layer_type + "_layer_form_" + id;
 
-    const layer_name = document.createElement("p");
-    layer_name.innerHTML = "Armor layer " + id;
-    new_armor_layer.append(layer_name); 
+    const layer_name_element = document.createElement("p");
+    layer_name_element.innerHTML = layer_name + " layer " + id;
+    new_armor_layer.append(layer_name_element); 
 
     const [quality_label, quality_dropdown] = create_dropdown({name:"armor_quality", id:id});
     const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({name:"rigid_armor", id:id, type:"checkbox"});
