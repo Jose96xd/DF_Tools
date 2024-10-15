@@ -38,12 +38,19 @@ To calculate weapon related stats like momentum, penetration and similar against
 - Momentum calculation for various races.
 - Penetration conditions calculation against armor layers.
 - Support for custom weapons, attacks, races, armors and materials.
+- Support for enemy states (prone, normal) and attacks types (heavy, quick and normal attacks).
 
 #### TODO list
-- Add more races and materials.
+- Add more races and materials (including procedural).
+- Automate material weakness load for vanilla races.
 - Investigate traps behavior more.
 - Add defender stats to the math (currently no depth or reduction of the contact area is applied so this assumes a big target).
 - Consider accumulative volume of armor when measuring penetration.
+- Ranged attacks.
+- Throwing objects.
+- "Natural" attacks (made with body parts).
+- Model the type of armor better (clothes are even worse than flexible armor with the same material).
+- Support for material weaknesses.
 
 ### Layer Permit Checker
 Layer Permit Checker
