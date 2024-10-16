@@ -22,11 +22,13 @@
             <li>Load vanilla stats using the dropdowns.</li>
             <li>Introduce the details by hand (you can still load similar races/weapons/materials first).</li>
         </ul>
-        <li>Add as many armor layers as you want. The first layer is outermost layer (the one that gets hit first).<br>With 0 armor layers (the default) you will only get the weapon momentum.</li>
+        <li>Add as many armor layers as you want. The first layer is outermost layer (the one that gets hit
+            first).<br>With 0 armor layers (the default) you will only get the weapon momentum.</li>
         <li>Specify each layer characteristics (same as before).</li>
         <li>Press the "Calculate" button and you will get the results.</li>
     </ol>
-    <p>All the formulas are from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Weapon">weapon article</a>. The stats are from the game raws (I just scraped them).</p>
+    <p>All the formulas are from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Weapon">weapon
+            article</a>. The stats are from the game raws (I just scraped them).</p>
 
     <form onsubmit="return false;" id="offense_characteristics">
 
@@ -52,7 +54,7 @@
         <label for="weapon_name">Weapon</label>
         <select name="weapon_name" id="weapon_name" onchange="">
         </select><br>
-        <label for="attack_name">Weapon</label>
+        <label for="attack_name">Attack</label>
         <select name="attack_name" id="attack_name" onchange="">
         </select><br>
         <label for="weapon_quality">Weapon quality</label>
@@ -72,7 +74,9 @@
             <option value="0.5">Quick</option>
         </select><br>
         <label for="prone_state">Is the target prone?</label>
-        <input type="checkbox" name="prone_state" id="prone_state" value="true">
+        <input type="checkbox" name="prone_state" id="prone_state" value="true"><br>
+        <label for="material_force_multiplier">Target race material force multiplier</label>
+        <input type="number" id="material_force_multiplier" name="material_force_multiplier" value="1" min="0"><br>
         <div>
             <label for="w_SIZE">Weapon size</label>
             <input type="number" id="w_SIZE" name="w_SIZE" value="800" data_column="SIZE"><br>
@@ -108,14 +112,16 @@
 
     <h2>Armor characteristics</h2>
     <p>To specify various armor layers and their characteristics.</p>
-    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous layers.</p>
+    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous
+        layers.</p>
     <button name="Add armor layer" id="add_armor_layer_button">Add armor layer</button><br>
     <div id="armor_layers">
     </div>
 
     <h2>Body characteristics</h2>
     <p>To specify various body layers and their characteristics.</p>
-    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous layers.</p>
+    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous
+        layers.</p>
     <button name="Add body layer" id="add_body_layer_button">Add body layer</button><br>
     <div id="body_layers">
     </div>
@@ -127,7 +133,8 @@
     </ul>
 
     <h2>Material details</h2>
-    <p>Some materials share the same characteristics and to avoid having 1 million options some groups have been made.</p>
+    <p>Some materials share the same characteristics and to avoid having 1 million options some groups have been made.
+    </p>
     <p>This are the groups that have been used:</p>
     <ul>
         <li>Skin: SKIN_TEMPLATE, SINEW_TEMPLATE</li>
@@ -135,8 +142,10 @@
         <li>Extracts: PLANT_EXTRACT_TEMPLATE, CREATURE_EXTRACT_TEMPLATE, INK_TEMPLATE</li>
         <li>Gold: GOLD, ROSE_GOLD</li>
         <li>Grease: SOAP_TEMPLATE, TALLOW_TEMPLATE, PLANT_SOAP_TEMPLATE</li>
-        <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE, MILK_TEMPLATE, EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
-        <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE, GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE, KIDNEY_TEMPLATE</li>
+        <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE, MILK_TEMPLATE,
+            EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
+        <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE,
+            GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE, KIDNEY_TEMPLATE</li>
         <li>Leather: LEATHER_TEMPLATE, PARCHMENT_TEMPLATE</li>
         <li>Bone: BONE_TEMPLATE, TOOTH_TEMPLATE, HORN_TEMPLATE, HOOF_TEMPLATE, SHELL_TEMPLATE, EGGSHELL_TEMPLATE</li>
         <li>Vegetable stuff: LEAF_TEMPLATE, FRUIT_TEMPLATE, BUD_TEMPLATE, MUSHROOM_TEMPLATE, FLOWER_TEMPLATE</li>
@@ -148,7 +157,8 @@
     </ul>
 
     <h2>Others:</h2>
-    <p>All the info and formulas used for this web were extracted from the DF wiki. All of them are theoretical, since I don't have any way to check the actual code.</p>
+    <p>All the info and formulas used for this web were extracted from the DF wiki. All of them are theoretical, since I
+        don't have any way to check the actual code.</p>
     <p>Also, check the readme of the github to check for missing features or things that I am still developing.</p>
     <p>Tarn, Putnam, if any of you read this... come on, my comrades, I'm trustworthy (let me take a peak).</p>
 

@@ -58,7 +58,12 @@ export function default_id_treatment(text){
     return text.trim().replaceAll(" ", "_").toUpperCase();
 }
 export function create_dropdown({name, id=null, text=null, treatment_function=default_text_treatment}={}){
-    const id_text = name+id.toString();
+    let id_text = name;
+
+    if (!(id === null)){
+        id_text += id.toString();
+    }
+
     const filling_text = (text === null) ? treatment_function(name) : text;
 
     const label = document.createElement("label");
@@ -89,25 +94,35 @@ export function create_input_field({name, innerText=null, id, type, data_column=
     }
     return [label, input_field];
 }
-export function create_table({id=null, headers=null, data=null}){
-    const table = document.createElement("table");
 
-    if (!(headers === null)){
-        const row = table.insertRow();
 
-        for (const element of headers){
+export class Table{
+    constructor({id=null, headers=null}={}){
+        this.table = document.createElement("table");
+        this.headers = [];
+        this.data = [];
+
+        if (!(id === null)){
+            this.table.id = id;
+        }
+        if (!(headers === null)){
+            this.headers = headers;
+            this.add_row(headers, )
+        }
+        
+    }
+    add_row(data, index=-1, header=false){
+        let row = null;
+        
+        if (header){
+            row = this.table.createTHead(index);
+        } else{
+            row = this.table.insertRow(index);
+        }
+        
+        for (const element of data){
             const cell = row.insertCell();
             cell.innerHTML = element;
         }
     }
-    if (!(data === null)){
-        for (const data_row in data){
-            const row = table.insertRow();
-            for (const element in data_row){
-                const cell = row.insertCell();
-                cell.innerHTML = element;
-            }
-        }
-    }
-    return table;
 }

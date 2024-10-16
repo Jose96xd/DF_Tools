@@ -100,6 +100,7 @@ function execute_calculation(attack_data, momentum_paragraph, results_list, armo
 
     const attack_type_multiplier = attack_data.get("attack_type");
     const target_is_prone = (attack_data.has("prone_state"));
+    const material_force_multiplier = attack_data.get("material_force_multiplier");
 
     let momentum = attacker.get_momentum(0);
     momentum *= attack_type_multiplier;
@@ -119,7 +120,10 @@ function execute_calculation(attack_data, momentum_paragraph, results_list, armo
 
             if (layer_num >= armor_forms.length){
                 layer_num -= armor_forms.length;
-                layer_type = "body"
+                layer_type = "body";
+                if (layer_num === 0){
+                    layer_momentum *= material_force_multiplier;
+                }
             }else{
                 quality = layer_data.get("armor_quality");
             }
