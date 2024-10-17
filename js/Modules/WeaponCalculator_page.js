@@ -233,7 +233,9 @@ function add_layer(layers_div, layer_type = "armor") {
     new_layer.append(lm_label, lm_dropdown, document.createElement("br"));
     new_layer.append(am_characteristics_div, delete_button, document.createElement("br"));
 
-    load_dropdown({ data: materials_data, dropdown: lm_dropdown, starting_selected_id: "STEEL" });
+
+    const initial_material = (layer_type === "armor") ? "STEEL" : "SKIN";
+    load_dropdown({ data: materials_data, dropdown: lm_dropdown, starting_selected_id: initial_material });
     lm_dropdown.addEventListener("change", function () {
         updated_form_fields(materials_columns, materials_data, lm_dropdown.value, new_layer);
     });
