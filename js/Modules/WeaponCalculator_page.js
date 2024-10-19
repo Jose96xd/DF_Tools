@@ -170,7 +170,8 @@ function get_layer_text_result(attack_history, layer_number, layer_type = "armor
 
         if (passed_bounce_condition) {
             const [passed_smash_condition, smash_condition_value] = [attack_history["passed_smash_condition"], attack_history["smash_condition_value"]];
-            result_text = result_text.concat(get_blunt_text(passed_smash_condition, smash_condition_value, layer_type));
+            const starts_as_blunt_attack = attack_history["starts_as_blunt_attack"];
+            result_text = result_text.concat(get_blunt_text(starts_as_blunt_attack, passed_smash_condition, smash_condition_value, layer_type));
         }
     }
     if (!("bounce_condition" in attack_history) || (attack_history["bounce_condition"])) {
@@ -188,13 +189,13 @@ function get_edge_text(passed_cut_condition, cut_condition_value, layer_type = "
         result_text.push("Attack becomes blunt for failing.");
     return result_text;
 }
-function get_blunt_text(passed_smash_condition, smash_condition_value, layer_type = "armor") {
+function get_blunt_text(starts_as_blunt_attack, passed_smash_condition, smash_condition_value, layer_type = "armor") {
     const result_text = [];
     const smash_success_text = passed_smash_condition ? ["", "surpassing"] : ["doesn't ", "failing"];
     const type_of_damage = (layer_type === "body") ? "punctures/severe" : "penetrates";
 
     result_text.push(`Blunt attack ${smash_success_text[0]}${type_of_damage} the ${layer_type} layer ${smash_success_text[1]} the smash condition of ${smash_condition_value.toFixed(3)}.`);
-    if ((!passed_smash_condition) & (!attack_history["starts_as_blunt_attack"]))
+    if ((!passed_smash_condition) & (!starts_as_blunt_attack))
         result_text.push("Attack becomes blunt forever for failing.");
     return result_text;
 }
