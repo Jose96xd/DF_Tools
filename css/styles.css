@@ -3,7 +3,12 @@ th,
 td {
     border: 1px solid black;
 }
-
+label {
+    width:100px;
+    clear:both;
+    text-align:left;
+    padding-right:10px;
+}
 body{
     margin: 16px;;
 }
