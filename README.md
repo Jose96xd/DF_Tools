@@ -4,6 +4,7 @@ Tools for modders and players.
 ## Direct links
 - [DF Tools](https://jose96xd.github.io/DF_Tools/):
     - [Weapon Calculator](https://jose96xd.github.io/DF_Tools/Modules/WeaponCalculator.html): To calculate weapon related stats like momentum, penetration and similar against armor.
+    - [Temperature Converter](https://jose96xd.github.io/DF_Tools/Modules/TemperatureConverter.html): To convert temperature from in-game units to normal units.
     - Layer Permit Checker (on development): To calculate the clothes and armor a creature can wear and help with modded clothes and layouts.
 
 
@@ -26,6 +27,7 @@ A major refactor of everything will be done sooner than later.
   - [Index](#index)
   - [Modules](#modules)
     - [Weapon Calculator](#weapon-calculator)
+    - [Temperature Converter](#temperature-converter)
     - [Layer Permit Checker](#layer-permit-checker)
 
 ## Modules
@@ -51,6 +53,13 @@ To calculate weapon related stats like momentum, penetration and similar against
 - "Natural" attacks (made with body parts).
 - Model the type of armor better (clothes are even worse than flexible armor with the same material).
 - Support for material weaknesses.
+
+### Temperature Converter
+[Temperature Converter](https://jose96xd.github.io/DF_Tools/Modules/TemperatureConverter.html)
+A tool to convert temperature between real world units and Urist.
+
+#### Current features
+- Conversion from Urist to Kelvin, Celsius, Fahrenheit and Rankine and vice versa.
 
 ### Layer Permit Checker
 Layer Permit Checker
