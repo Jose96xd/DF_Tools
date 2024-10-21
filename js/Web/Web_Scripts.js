@@ -94,7 +94,10 @@ export function create_input_field({name, innerText=null, id, type, data_column=
     }
     return [label, input_field];
 }
-
+export function round_without_decimals(number, precision=3){
+    const rounded_number = Math.round(number * (10**precision)) / 10**precision; 
+    return rounded_number;
+}
 
 export class Table{
     constructor({id=null, headers=null}={}){
