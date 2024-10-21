@@ -56,7 +56,7 @@ To calculate weapon related stats like momentum, penetration and similar against
 
 ### Temperature Converter
 [Temperature Converter](https://jose96xd.github.io/DF_Tools/Modules/TemperatureConverter.html)
-A tool to convert temperature between real world units and Urist.
+To convert temperature from in-game units to normal units.
 
 #### Current features
 - Conversion from Urist to Kelvin, Celsius, Fahrenheit and Rankine and vice versa.
