@@ -6,7 +6,8 @@ export const TEMPERATURE_UNITS = Object.freeze({
     CELSIUS: Symbol(),
     KELVIN: Symbol(),
     FAHRENHEIT: Symbol(),
-    RANKINE: Symbol()
+    RANKINE: Symbol(),
+    WORLDGEN: Symbol()
 })
 
 export function attack_belongs_to_weapon(weapon_id, attack_id) {
@@ -48,6 +49,8 @@ export function TemperatureToUrist(unit, temperature) {
             return (temperature + 9968);
         case TEMPERATURE_UNITS.RANKINE:
             return (temperature + 9508.33);
+        case TEMPERATURE_UNITS.WORLDGEN:
+            return ((temperature * 0.75) + 10000);
     }
 }
 export function TemperatureFromUrist(temperature, target_unit) {
@@ -60,5 +63,7 @@ export function TemperatureFromUrist(temperature, target_unit) {
             return (temperature - 9968);
         case TEMPERATURE_UNITS.RANKINE:
             return (temperature - 9508.33);
+        case TEMPERATURE_UNITS.WORLDGEN:
+            return ((temperature - 10000) / 0.75);
     }
 }
