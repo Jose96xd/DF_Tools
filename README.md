@@ -59,7 +59,7 @@ To calculate weapon related stats like momentum, penetration and similar against
 To convert temperature from in-game units to normal units.
 
 #### Current features
-- Conversion from Urist to Kelvin, Celsius, Fahrenheit and Rankine and vice versa.
+- Conversion from Urist and world generation temperature to Kelvin, Celsius, Fahrenheit and Rankine and vice versa.
 
 ### Layer Permit Checker
 Layer Permit Checker
