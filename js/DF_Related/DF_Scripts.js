@@ -8,7 +8,7 @@ export const TEMPERATURE_UNITS = Object.freeze({
     FAHRENHEIT: Symbol(),
     RANKINE: Symbol(),
     WORLDGEN: Symbol()
-})
+});
 
 export function attack_belongs_to_weapon(weapon_id, attack_id) {
     return (weapon_id === attack_id);
