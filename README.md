@@ -7,7 +7,6 @@ Tools for modders and players.
     - [Temperature Converter](https://jose96xd.github.io/DF_Tools/Modules/TemperatureConverter.html): To convert temperature from in-game units to normal units.
     - Layer Permit Checker (on development): To calculate the clothes and armor a creature can wear and help with modded clothes and layouts.
 
-
 I will be adding more as I finish the ones in development. Also, as I learn more js and CSS I will try to make them prettier and more efficient.
 For now, all the js is native with no external code, so I think it should (at least) be smallish.
 
@@ -17,7 +16,6 @@ Each module is more or less independent. I will try to make sure that all the fu
 ## Note
 I'm making this website as fast as I can so don't expect too much beauty. I will try to come back to clean everything once I have more time. Also, I'm learning HTML, CSS and js at the same time as I do this, so for now, functionality will be prioritized over everything else.
 A major refactor of everything will be done sooner than later.
-
 
 ## Index
 - [DF Tools](#df-tools)
@@ -29,6 +27,7 @@ A major refactor of everything will be done sooner than later.
     - [Weapon Calculator](#weapon-calculator)
     - [Temperature Converter](#temperature-converter)
     - [Layer Permit Checker](#layer-permit-checker)
+  - [Other resources](#other-resources)
 
 ## Modules
 
@@ -67,3 +66,8 @@ A tool to check how different armor pieces interact with each other. It helps to
 
 #### TODO list
 - Add more body distributions (currently only humanoid distributions are considered for armor accumulative volume).
+
+## Other resources
+Here, I will include small studies and other useful things that aren't exactly tools.
+
+- [Arena map](https://github.com/Jose96xd/DF_Tools/blob/main/Resources/TestingArena.txt). A map with 288 combat cells of 1x3 for testing.
