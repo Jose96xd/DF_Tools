@@ -22,8 +22,8 @@ const sorted_layers = Object.freeze(["UNDER", "OVER", "ARMOR", "COVER"]);
 
 async function initial_load() {
 
-    [armor_columns, armor_data] = await get_data_csv("../../Data/clothes_data.csv");
-    [races_columns, races_data] = await get_data_csv("../../Data/races_data.csv");
+    [armor_columns, armor_data] = await get_data_csv("../Data/clothes_data.csv");
+    [races_columns, races_data] = await get_data_csv("../Data/races_data.csv");
 
     const armor_save_form = document.getElementById("armor_save_form");
     const armor_save_button = document.getElementById("save_button");
