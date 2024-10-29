@@ -92,8 +92,11 @@ function save_armor_piece(armor_save_form) {
 }
 function sort_armor(piece_A, piece_B){
     let order = sorted_layers.indexOf(piece_A.layer) - sorted_layers.indexOf(piece_B.layer);
-    if (order === 0){ // Same layer? then sort by permit size
-        order = (piece_A.layer_size - piece_B.layer_size);
+    if (order === 0){
+        order = (piece_A.layer_permit - piece_B.layer_permit);
+    }
+    if (order === 0){ // Same layer? then sort by permit size -> Bigger first
+        order = (piece_B.layer_size - piece_A.layer_size);
     }
     return order;
 }
@@ -143,12 +146,12 @@ class ArmorTable extends Table {
     create_row(piece, lastLayerSize, lastVolume, rowIndex, shapedCount){
         const newLayerSize = parseInt(lastLayerSize) + parseInt(piece.layer_size);        
         let isValid = lastLayerSize < parseInt(piece.layer_permit);
-        if (shapedCount > 0){
+        if ((shapedCount > 0) & (piece.is_shaped)){
             isValid = false;
         }
         const validText = isValid ? "Yes" : "No";
         const shapedText = piece.is_shaped ? "Yes" : "No";
-        const newLayerVolume = piece.getVolume(lastVolume);
+        const pieceVolume = piece.getVolume(lastVolume);
         
         const deleteButton = document.createElement("button");
         deleteButton.innerText = "Delete piece";
@@ -158,8 +161,9 @@ class ArmorTable extends Table {
             this.plot_rows();
         }).bind(this));
 
-        const row = [default_text_treatment(piece.name), piece.layer, piece.coverage, piece.layer_size, piece.layer_permit, newLayerSize, shapedText, validText, round_without_decimals(newLayerVolume), deleteButton];
-        return row;
+        const info = {"newLayerSize":newLayerSize, "isValid":isValid, "pieceVolume":pieceVolume};
+        const row = [default_text_treatment(piece.name), piece.layer, piece.coverage, piece.layer_size, piece.layer_permit, lastLayerSize, shapedText, validText, round_without_decimals(pieceVolume), deleteButton];
+        return [info, row];
     }
     plot_rows(){
         this.clean_table();
@@ -167,11 +171,13 @@ class ArmorTable extends Table {
         let lastLayerVolume = this.bodySize * this.bodyPartRelativeSize;
         let shapedCount = 0;
         for(const [index, piece] of this.armor_pieces.entries()){
-            const row = this.create_row(piece, lastLayerSize, lastLayerVolume, index, shapedCount);
+            const [info, row] = this.create_row(piece, lastLayerSize, lastLayerVolume, index, shapedCount);
             this.add_row(row);
-            lastLayerSize = row[5];
-            lastLayerVolume += row[row.length - 2];
-            shapedCount += (piece.is_shaped ? 1 : 0);
+            if (info["isValid"]){
+                lastLayerSize = info["newLayerSize"];
+                lastLayerVolume += info["pieceVolume"];
+                shapedCount += (piece.is_shaped ? 1 : 0);
+            }
         }
     }
 }
