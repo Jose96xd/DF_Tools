@@ -12,3 +12,10 @@ label {
 body{
     margin: 16px;;
 }
+td 
+{
+    text-align: center; 
+    vertical-align: middle;
+    padding-left: 4px;
+    padding-right: 4px;
+}
