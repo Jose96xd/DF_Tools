@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layer Permit Checker</title>
+    <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../Resources/Pictures/DFTOOLS.png" />
+    <meta name="description"
+        content="A tool to check if different clothes and armors can be worn at the same time and the final characteristics of the outfit." />
+    <meta property="og:title" content="DF Tools: Layer Permit Checker" />
+    <meta property="og:description" content="Outfit sanitizing tool for Dwarf Fortress." />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <script defer src="../js/Modules/LayerPermitChecker_page.js" type="module"></script>
+
+    <header>
+        <a href="../index.html">Back</a>
+        <h1>Layer Permit Checker</h1>
+    </header>
+
+    <h2>What for?</h2>
+    <p>For sanitizing armor and clothes layouts and to check if that strange mod piece of armor will be usable or not.
+    </p>
+    <h2>How to use?</h2>
+    <ol>
+        <li>(For mod stuff) Save the piece of armor you want to test (if you are going to use vanilla stuff, don't
+            worry,
+            I already have it).</li>
+        <li>(Optional) Choose the race / size of the creature you want to test the armor pieces with.</li>
+        <li>Start adding the stuff you want to each body part.</li>
+        <li>It will automatically show you the layout statistics, whether it's viable or not, and the total volume of
+            each layer.
+        </li>
+    </ol>
+    <p>All the math comes from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Armor">armor</a> and <a
+            href="https://dwarffortresswiki.org/Material_science">material science</a> articles.
+    </p>
+    <p><b>Note:</b>
+        It is my current understanding that each body part's clothes don't affect or get affected by clothes in other
+        body parts. This means that the cloak/dress will affect whatever you are wearing in your torso but not anything
+        in your hands, for example.
+    </p>
+
+    <h2>Armor creation section</h2>
+    <p>If you want to add the relevant stats of a modded piece of armor, you can do so here. That way, later, you just need to use the dropdowns.</p>
+    <p><b>Note:</b> Default values bellow are those of a breastplate (because i like them).</p>
+    <form onsubmit="return false;" id="armor_save_form">
+        <label for="armor_name">Armor name</label>
+        <input type="text" id="armor_name" name="armor_name" data_column="name" value="Cooler breastplate"><br>
+        <label for="armor_type">Armor type (where does it go?)</label>
+        <select name="armor_type" id="armor_type">
+            <option value="ARMOR" selected>Armor</option>
+            <option value="GLOVES">Gloves</option>
+            <option value="HELM">Helm</option>
+            <option value="PANTS">Pants</option>
+            <option value="SHOES">Shoes</option>
+        </select><br>
+        <label for="layer">Armor layer</label>
+        <select name="layer" id="layer">
+            <option value="ARMOR" selected>Armor</option>
+            <option value="OVER">Over</option>
+            <option value="UNDER">Under</option>
+            <option value="COVER">Cover</option>
+        </select><br>
+        <label for="coverage">Armor layer coverage</label>
+        <input type="number" id="coverage" name="coverage" value="100" min="0" max="100" data_column="coverage"><br>
+        <label for="layer_size">Armor layer size</label>
+        <input type="number" id="layer_size" name="layer_size" value="20" min="0" data_column="layer_size"><br>
+        <label for="layer_permit">Armor layer permit</label>
+        <input type="number" id="layer_permit" name="layer_permit" value="50" min="0" data_column="layer_permit"><br>
+        <label for="UBSTEP">UBSTEP value</label>
+        <input type="text" id="UBSTEP" name="UBSTEP" data_column="UBSTEP" value="0"><br>
+        <label for="LBSTEP">LBSTEP value</label>
+        <input type="text" id="LBSTEP" name="LBSTEP" data_column="LBSTEP" value="0"><br>
+        <label for="UPSTEP">UPSTEP value</label>
+        <input type="text" id="UPSTEP" name="UPSTEP" data_column="UPSTEP" value="0"><br>
+        <label for="shaped">Shaped armor</label>
+        <input type="checkbox" id="shaped" name="shaped" data_column="shaped" value="true" checked><br>
+        <button name="save_button" id="save_button">Save</button>
+    </form>
+
+    <h2>Math section</h2>
+    <p>Each body section has its own table because that way is more neat (also according to Putnam clothes in one
+        section don't affect the others even if they cover overlapping body parts).
+    </p>
+    <p><b>Note:</b> I'm assuming humanoid body distributions for now. Until I get the body data for all the races this is the best I can do to calculate the size of each armor piece. 
+        This should provide accurate results for most normal races like dwarfs, humans and so on.</p>
+
+    <label for="wearerRace">Wearer Race</label>
+    <select name="wearerRace" id="wearerRace"></select><br>
+    <label for="BODY_SIZE">Wearer race average size</label>
+    <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data_column="BODY_SIZE"><br>
+
+
+    <div id="tables_section">
+
+    </div>
+
+</body>
+
+</html>
