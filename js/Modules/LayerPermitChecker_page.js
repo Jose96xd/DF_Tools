@@ -175,7 +175,7 @@ class ArmorTable extends Table {
             this.add_row(row);
             if (info["isValid"]){
                 lastLayerSize = info["newLayerSize"];
-                lastLayerVolume += info["pieceVolume"];
+                //lastLayerVolume += info["pieceVolume"];
                 shapedCount += (piece.is_shaped ? 1 : 0);
             }
         }
