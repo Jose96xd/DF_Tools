@@ -5,170 +5,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DF Weapon Calculator</title>
-    <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../Resources/Pictures/DFTOOLS.png" />
+    <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../Resources/Pictures/DFTOOLS.png">
     <meta name="description"
-        content="A tool for calculating statistics regarding Dwarf Fortress weapons, armor and combat." />
-    <meta property="og:title" content="DF Tools: Weapon Calculator" />
-    <meta property="og:description" content="Weapon calculator for Dwarf Fortress." />
+        content="A tool for calculating statistics regarding Dwarf Fortress weapons, armor and combat.">
+    <meta property="og:title" content="DF Tools: Weapon Calculator">
+    <meta property="og:description" content="Weapon calculator for Dwarf Fortress.">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
-    <script defer src="../js/Modules/WeaponCalculator_page.js" type="module"></script>
+    <script src="../js/Modules/WeaponCalculator_page.js" type="module"></script>
 
-    <div>
+    <header>
         <a href="../index.html">Back</a>
         <h1>Weapon Calculator</h1>
-    </div>
+    </header>
+    <main>
 
-    <h2>What for?</h2>
-    <p>For calculating weapon related stuff such as momentum, penetration and similar.</p>
-    <h2>How to use:</h2>
-    <ol>
-        <li>Specify the attacker characteristics to your liking. You have two ways:</li>
-        <ul>
-            <li>Load vanilla stats using the dropdowns.</li>
-            <li>Introduce the details by hand (you can still load similar races/weapons/materials first).</li>
-        </ul>
-        <li>Add as many armor layers as you want. The first layer is outermost layer (the one that gets hit
-            first).<br>With 0 armor layers (the default) you will only get the weapon momentum.</li>
-        <li>Specify each layer characteristics (same as before).</li>
-        <li>Press the "Calculate" button and you will get the results.</li>
-    </ol>
-    <p>All the formulas are from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Weapon">weapon
-            article</a>. The stats are from the game raws (I just scraped them).</p>
+        <h2>What for?</h2>
+        <p>For calculating weapon related stuff such as momentum, penetration and similar.</p>
+        <h2>How to use:</h2>
+        <ol>
+            <li>Specify the attacker characteristics to your liking. You have two ways:
+                <ul>
+                    <li>Load vanilla stats using the dropdowns.</li>
+                    <li>Introduce the details by hand (you can still load similar races/weapons/materials first).</li>
+                </ul>
+            </li>
+            <li>Add as many armor layers as you want. The first layer is outermost layer (the one that gets hit
+                first).<br>With 0 armor layers (the default) you will only get the weapon momentum.</li>
+            <li>Specify each layer characteristics (same as before).</li>
+            <li>Press the "Calculate" button and you will get the results.</li>
+        </ol>
+        <p>All the formulas are from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Weapon">weapon
+                article</a>. The stats are from the game raws (I just scraped them).</p>
+        
+        <p><b>Note:</b> As of right now there are two things that will make the results of this tool differ from experimental results:</p>
+        <ol>
+            <li>Contact Area: I have finished the Layer Permit Checker that allows me to calculate the size of the armor/body parts of humanoid races but currently this tool doesn't use it.
+                This means that the contact area of the attacks is used as if hitting a very very big target and thus weapons with a bigger contact area will perform worse than they would otherwise. <br>
+                If you want to get realistic results in this regard against normal size enemies (goblins, humans etc...) just reduce the contact area of the attack to 2500 for example (I will change this later).
+            </li>
+            <li>My nemesis, the bouncing formula: Blunt attacks made with low density materials (read, spoiler materials) should bounce but the formula doesn't represent that. Basically, until I find the full form of the formula or
+                Putnam and Tarn come from the heavens the bouncing condition won't work properly (for low density materials).
+            </li>
+        </ol>
+        <p>If you aren't using low density blunt weapons or high contact area weapons the calculator should work well.</p>
+        <form onsubmit="return false;" id="offense_characteristics">
 
-    <form onsubmit="return false;" id="offense_characteristics">
+            <h2>Attacker characteristics</h2>
+            <p>Use the dropdowns to load vanilla stats. You can edit the values to represent mod materials.
+            </p>
+            <label for="attacker_skill_lvl">Attacker skill level (levels above level 14 don't have any further
+                impact)</label>
+            <input type="number" id="attacker_skill_lvl" name="attacker_skill_lvl" value="1" min="0" max="14"><br>            <label for="attacker_race">Attacker race</label>
+            <select name="attacker_race" id="attacker_race">
+            </select><br>
+            <details>
+                <summary>Race details</summary>
+                <label for="BODY_SIZE">Race average size</label>
+                <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data-column="BODY_SIZE"><br>
+                <label for="attacker_BODY_SIZE">Attacker specific size</label>
+                <input type="number" id="attacker_BODY_SIZE" name="attacker_BODY_SIZE" value="0" min="0"
+                    data-column="BODY_SIZE"><br>
+                <label for="STRENGTH">Attacker strength</label>
+                <input type="number" id="STRENGTH" name="STRENGTH" value="0" min="0" data-column="STRENGTH"><br>
+            </details><br>
 
-        <h2>Attacker characteristics</h2>
-        <p>Use the dropdowns to load vanilla stats. You can edit the values to represent mod materials.
-        </p>
-        <label for="attacker_race">Attacker race</label>
-        <select name="attacker_race" id="attacker_race">
-        </select><br>
-        <label for="attacker_skill_lvl">Attacker skill level (levels above level 14 don't have any further
-            impact)</label>
-        <input type="number" id="attacker_skill_lvl" name="attacker_skill_lvl" value="1" min="0" max="14"><br>
-        <div>
-            <label for="BODY_SIZE">Race average size</label>
-            <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data_column="BODY_SIZE"><br>
-            <label for="attacker_BODY_SIZE">Attacker specific size</label>
-            <input type="number" id="attacker_BODY_SIZE" name="attacker_BODY_SIZE" value="0" min="0"
-                data_column="BODY_SIZE"><br>
-            <label for="STRENGTH">Attacker strength</label>
-            <input type="number" id="STRENGTH" name="STRENGTH" value="0" min="0" data_column="STRENGTH"><br>
-        </div><br>
+            <label for="weapon_name">Weapon</label>
+            <select name="weapon_name" id="weapon_name" onchange="">
+            </select><br>
+            <label for="attack_name">Attack</label>
+            <select name="attack_name" id="attack_name" onchange="">
+            </select><br>
+            <label for="weapon_quality">Weapon quality</label>
+            <select name="weapon_quality" id="weapon_quality">
+                <option value="0.5" selected>Basic</option>
+                <option value="0.6">-Well-crafted-</option>
+                <option value="0.7">+Finely-crafted+</option>
+                <option value="0.8">*Superior*</option>
+                <option value="0.9">≡Exceptional≡</option>
+                <option value="1">☼Masterful☼</option>
+                <option value="1">Artifact</option>
+            </select><br>
+            <label for="attack_type">Attack type</label>
+            <select name="attack_type" id="attack_type">
+                <option value="1" selected>Normal</option>
+                <option value="2">Heavy</option>
+                <option value="0.5">Quick</option>
+            </select><br>
+            <label for="prone_state">Is the target prone?</label>
+            <input type="checkbox" name="prone_state" id="prone_state" value="true"><br>
+            <label for="material_force_multiplier">Target race material force multiplier</label>
+            <input type="number" id="material_force_multiplier" name="material_force_multiplier" value="1" min="0"><br>
+            <details>
+                <summary>Weapon details</summary>
+                <label for="w_SIZE">Weapon size</label>
+                <input type="number" id="w_SIZE" name="w_SIZE" value="800" data-column="SIZE"><br>
+                <label for="attack_contact_area">Attack contact_area</label>
+                <input type="number" id="attack_contact_area" name="attack_contact_area" value="40000"
+                    data-column="attack_contact_area"><br>
+                <label for="attack_velocity_modifier">Attack velocity modifier</label>
+                <input type="number" id="attack_velocity_modifier" name="attack_velocity_modifier" value="1250"
+                    data-column="attack_velocity_modifier"><br>
+                <label for="blunt_attack">Blunt attack</label>
+                <input type="checkbox" id="blunt_attack" name="blunt_attack" value="true"
+                    data-column="blunt_attack"><br>
+            </details><br>
 
-        <label for="weapon_name">Weapon</label>
-        <select name="weapon_name" id="weapon_name" onchange="">
-        </select><br>
-        <label for="attack_name">Attack</label>
-        <select name="attack_name" id="attack_name" onchange="">
-        </select><br>
-        <label for="weapon_quality">Weapon quality</label>
-        <select name="weapon_quality" id="weapon_quality">
-            <option value="0.5" selected>Basic</option>
-            <option value="0.6">-Well-crafted-</option>
-            <option value="0.7">+Finely-crafted+</option>
-            <option value="0.8">*Superior*</option>
-            <option value="0.9">≡Exceptional≡</option>
-            <option value="1">☼Masterful☼</option>
-            <option value="1">Artifact</option>
-        </select><br>
-        <label for="attack_type">Attack type</label>
-        <select name="attack_type" id="attack_type">
-            <option value="1" selected>Normal</option>
-            <option value="2">Heavy</option>
-            <option value="0.5">Quick</option>
-        </select><br>
-        <label for="prone_state">Is the target prone?</label>
-        <input type="checkbox" name="prone_state" id="prone_state" value="true"><br>
-        <label for="material_force_multiplier">Target race material force multiplier</label>
-        <input type="number" id="material_force_multiplier" name="material_force_multiplier" value="1" min="0"><br>
-        <div>
-            <label for="w_SIZE">Weapon size</label>
-            <input type="number" id="w_SIZE" name="w_SIZE" value="800" data_column="SIZE"><br>
-            <label for="attack_contact_area">Attack contact_area</label>
-            <input type="number" id="attack_contact_area" name="attack_contact_area" value="40000"
-                data_column="attack_contact_area"><br>
-            <label for="attack_velocity_modifier">Attack velocity modifier</label>
-            <input type="number" id="attack_velocity_modifier" name="attack_velocity_modifier" value="1250"
-                data_column="attack_velocity_modifier"><br>
-            <label for="blunt_attack">Blunt attack</label>
-            <input type="checkbox" id="blunt_attack" name="blunt_attack" value="true" data_column="blunt_attack"><br>
-        </div><br>
+            <label for="weapon_material">Weapon Metal</label>
+            <select name="weapon_material" id="weapon_material">
+            </select><br>
+            <details>
+                <summary>Material details</summary>
+                <label for="wm_SOLID_DENSITY">Weapon material density</label>
+                <input type="number" id="wm_SOLID_DENSITY" name="wm_SOLID_DENSITY" value="7850"
+                    data-column="SOLID_DENSITY"><br>
+                <label for="wm_IMPACT_YIELD">Weapon material impact yield</label>
+                <input type="number" id="wm_IMPACT_YIELD" name="wm_IMPACT_YIELD" value="1505000"
+                    data-column="IMPACT_YIELD"><br>
+                <label for="wm_SHEAR_YIELD">Weapon material shear yield</label>
+                <input type="number" id="wm_SHEAR_YIELD" name="wm_SHEAR_YIELD" value="430000"
+                    data-column="SHEAR_YIELD"><br>
+                <label for="wm_SHEAR_FRACTURE">Weapon material shear fracture</label>
+                <input type="number" id="wm_SHEAR_FRACTURE" name="wm_SHEAR_FRACTURE" value="720000"
+                    data-column="SHEAR_FRACTURE"><br>
+                <label for="wm_MAX_EDGE">Weapon material max edge (sharpness)</label>
+                <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data-column="MAX_EDGE"><br>
+            </details>
+        </form>
 
-        <label for="weapon_material">Weapon Metal</label>
-        <select name="weapon_material" id="weapon_material">
-        </select><br>
-        <div>
-            <label for="wm_SOLID_DENSITY">Weapon material density</label>
-            <input type="number" id="wm_SOLID_DENSITY" name="wm_SOLID_DENSITY" value="7850"
-                data_column="SOLID_DENSITY"><br>
-            <label for="wm_IMPACT_YIELD">Weapon material impact yield</label>
-            <input type="number" id="wm_IMPACT_YIELD" name="wm_IMPACT_YIELD" value="1505000"
-                data_column="IMPACT_YIELD"><br>
-            <label for="wm_SHEAR_YIELD">Weapon material shear yield</label>
-            <input type="number" id="wm_SHEAR_YIELD" name="wm_SHEAR_YIELD" value="430000" data_column="SHEAR_YIELD"><br>
-            <label for="wm_SHEAR_FRACTURE">Weapon material shear fracture</label>
-            <input type="number" id="wm_SHEAR_FRACTURE" name="wm_SHEAR_FRACTURE" value="720000"
-                data_column="SHEAR_FRACTURE"><br>
-            <label for="wm_MAX_EDGE">Weapon material max edge (sharpness)</label>
-            <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data_column="MAX_EDGE"><br>
+        <h2>Armor characteristics</h2>
+        <p>To specify various armor layers and their characteristics.</p>
+        <p>The first layer is the one on the outside and each layer you add after it is considered to be under the
+            previous
+            layers.</p>
+        <button name="Add armor layer" id="add_armor_layer_button">Add armor layer</button><br>
+        <div id="armor_layers">
         </div>
-    </form>
 
-    <h2>Armor characteristics</h2>
-    <p>To specify various armor layers and their characteristics.</p>
-    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous
-        layers.</p>
-    <button name="Add armor layer" id="add_armor_layer_button">Add armor layer</button><br>
-    <div id="armor_layers">
-    </div>
+        <h2>Body characteristics</h2>
+        <p>To specify various body layers and their characteristics.</p>
+        <p>The first layer is the one on the outside and each layer you add after it is considered to be under the
+            previous
+            layers.</p>
+        <button name="Add body layer" id="add_body_layer_button">Add body layer</button><br>
+        <div id="body_layers">
+        </div>
 
-    <h2>Body characteristics</h2>
-    <p>To specify various body layers and their characteristics.</p>
-    <p>The first layer is the one on the outside and each layer you add after it is considered to be under the previous
-        layers.</p>
-    <button name="Add body layer" id="add_body_layer_button">Add body layer</button><br>
-    <div id="body_layers">
-    </div>
+        <h2>Output:</h2>
+        <button name="calculate" id="calculate_button">Calculate</button>
+        <p id="momentum_paragraph"></p>
+        <ul id="results_list">
+        </ul>
 
-    <h2>Output:</h2>
-    <button name="calculate" id="calculate_button">Calculate</button>
-    <p id="momentum_paragraph"></p>
-    <ul id="results_list">
-    </ul>
+    </main>
+    <aside>
+        <header>
+            <h2>Material details:</h2>
+            <p>Some materials share the same characteristics and to avoid having 1 million options some groups have been
+                made.</p>
+        </header>
+        <details>
+            <summary>This are the groups that have been used:</summary>
+        <ul>
+            <li>Skin: SKIN_TEMPLATE, SINEW_TEMPLATE</li>
+            <li>Silver: SILVER, STERLING_SILVER</li>
+            <li>Extracts: PLANT_EXTRACT_TEMPLATE, CREATURE_EXTRACT_TEMPLATE, INK_TEMPLATE</li>
+            <li>Gold: GOLD, ROSE_GOLD</li>
+            <li>Grease: SOAP_TEMPLATE, TALLOW_TEMPLATE, PLANT_SOAP_TEMPLATE</li>
+            <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE,
+                MILK_TEMPLATE,
+                EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
+            <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE,
+                GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE, KIDNEY_TEMPLATE
+            </li>
+            <li>Leather: LEATHER_TEMPLATE, PARCHMENT_TEMPLATE</li>
+            <li>Bone: BONE_TEMPLATE, TOOTH_TEMPLATE, HORN_TEMPLATE, HOOF_TEMPLATE, SHELL_TEMPLATE, EGGSHELL_TEMPLATE
+            </li>
+            <li>Vegetable stuff: LEAF_TEMPLATE, FRUIT_TEMPLATE, BUD_TEMPLATE, MUSHROOM_TEMPLATE, FLOWER_TEMPLATE</li>
+            <li>Tin: TIN, PEWTER_FINE, PEWTER_TRIFLE, PEWTER_LAY</li>
+            <li>Alcohol: PLANT_ALCOHOL_TEMPLATE, CREATURE_ALCOHOL_TEMPLATE</li>
+            <li>Bronze: BRONZE, BISMUTH_BRONZE</li>
+            <li>Copper: COPPER, BILLON, BLACK_BRONZE</li>
+            <li>Fat: FAT_TEMPLATE, SPONGE_TEMPLATE</li>
+        </ul>
+        </details>
+        
+    </aside>
 
-    <h2>Material details</h2>
-    <p>Some materials share the same characteristics and to avoid having 1 million options some groups have been made.
-    </p>
-    <p>This are the groups that have been used:</p>
-    <ul>
-        <li>Skin: SKIN_TEMPLATE, SINEW_TEMPLATE</li>
-        <li>Silver: SILVER, STERLING_SILVER</li>
-        <li>Extracts: PLANT_EXTRACT_TEMPLATE, CREATURE_EXTRACT_TEMPLATE, INK_TEMPLATE</li>
-        <li>Gold: GOLD, ROSE_GOLD</li>
-        <li>Grease: SOAP_TEMPLATE, TALLOW_TEMPLATE, PLANT_SOAP_TEMPLATE</li>
-        <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE, MILK_TEMPLATE,
-            EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
-        <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE,
-            GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE, KIDNEY_TEMPLATE</li>
-        <li>Leather: LEATHER_TEMPLATE, PARCHMENT_TEMPLATE</li>
-        <li>Bone: BONE_TEMPLATE, TOOTH_TEMPLATE, HORN_TEMPLATE, HOOF_TEMPLATE, SHELL_TEMPLATE, EGGSHELL_TEMPLATE</li>
-        <li>Vegetable stuff: LEAF_TEMPLATE, FRUIT_TEMPLATE, BUD_TEMPLATE, MUSHROOM_TEMPLATE, FLOWER_TEMPLATE</li>
-        <li>Tin: TIN, PEWTER_FINE, PEWTER_TRIFLE, PEWTER_LAY</li>
-        <li>Alcohol: PLANT_ALCOHOL_TEMPLATE, CREATURE_ALCOHOL_TEMPLATE</li>
-        <li>Bronze: BRONZE, BISMUTH_BRONZE</li>
-        <li>Copper: COPPER, BILLON, BLACK_BRONZE</li>
-        <li>Fat: FAT_TEMPLATE, SPONGE_TEMPLATE</li>
-    </ul>
+    <aside>
+        <h2>Others:</h2>
+        <p>All the info and formulas used for this web were extracted from the DF wiki. All of them are theoretical,
+            since I
+            don't have any way to check the actual code.</p>
+        <p>Also, check the readme of the github to check for missing features or things that I am still developing.</p>
+        <p>Tarn, Putnam, if any of you read this... come on, my comrades, I'm trustworthy (let me take a peak).</p>
+    </aside>
 
-    <h2>Others:</h2>
-    <p>All the info and formulas used for this web were extracted from the DF wiki. All of them are theoretical, since I
-        don't have any way to check the actual code.</p>
-    <p>Also, check the readme of the github to check for missing features or things that I am still developing.</p>
-    <p>Tarn, Putnam, if any of you read this... come on, my comrades, I'm trustworthy (let me take a peak).</p>
 </body>
 
 </html>

@@ -221,7 +221,7 @@ function add_layer(layers_div, layer_type = "armor") {
     }
 
     const [lm_label, lm_dropdown] = create_dropdown({ name: `${layer_type}_layer_material`, id: id });
-    const am_characteristics_div = create_lm_characteristics_div(id);
+    const lm_characteristics_details = create_lm_characteristics_details(id);
 
     const delete_button = document.createElement("button");
     delete_button.id = `delete_${layer_type}_layer_` + id;
@@ -232,7 +232,7 @@ function add_layer(layers_div, layer_type = "armor") {
     });
 
     new_layer.append(lm_label, lm_dropdown, document.createElement("br"));
-    new_layer.append(am_characteristics_div, delete_button, document.createElement("br"));
+    new_layer.append(lm_characteristics_details, delete_button, document.createElement("br"));
 
 
     const initial_material = (layer_type === "armor") ? "STEEL" : "SKIN";
@@ -279,6 +279,20 @@ function get_layer_forms(armor_layers_div) {
 function create_lm_characteristics_div(id) {
     const input_fields = document.createElement("div");
     input_fields.id = "lm_characteristics_" + id;
+    for (const field_type in lm_fields) {
+        lm_fields[field_type].forEach((field) => {
+            const [lm_label, lm_field] = create_input_field({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
+            input_fields.append(lm_label, lm_field, document.createElement('br'));
+        });
+    }
+    return input_fields;
+}
+function create_lm_characteristics_details(id){
+    const input_fields = document.createElement("details");
+    input_fields.id = "lm_characteristics_" + id;
+    const summary = document.createElement("summary");
+    summary.innerHTML = "Layer details";
+    input_fields.append(summary)
     for (const field_type in lm_fields) {
         lm_fields[field_type].forEach((field) => {
             const [lm_label, lm_field] = create_input_field({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
