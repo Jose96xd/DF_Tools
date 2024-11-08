@@ -20,10 +20,12 @@
         <a href="../index.html">Back</a>
         <h1>Weapon Calculator</h1>
     </header>
-    <main>
 
+    <section>
         <h2>What for?</h2>
         <p>For calculating weapon related stuff such as momentum, penetration and similar.</p>
+    </section>
+    <section>
         <h2>How to use:</h2>
         <ol>
             <li>Specify the attacker characteristics to your liking. You have two ways:
@@ -39,18 +41,29 @@
         </ol>
         <p>All the formulas are from the DF wiki <a href="https://dwarffortresswiki.org/index.php/Weapon">weapon
                 article</a>. The stats are from the game raws (I just scraped them).</p>
-        
-        <p><b>Note:</b> As of right now there are two things that will make the results of this tool differ from experimental results:</p>
+
+        <p><b>Note:</b> As of right now there are two things that will make the results of this tool differ from
+            experimental results:</p>
         <ol>
-            <li>Contact Area: I have finished the Layer Permit Checker that allows me to calculate the size of the armor/body parts of humanoid races but currently this tool doesn't use it.
-                This means that the contact area of the attacks is used as if hitting a very very big target and thus weapons with a bigger contact area will perform worse than they would otherwise. <br>
-                If you want to get realistic results in this regard against normal size enemies (goblins, humans etc...) just reduce the contact area of the attack to 2500 for example (I will change this later).
+            <li>Contact Area: I have finished the Layer Permit Checker that allows me to calculate the size of the
+                armor/body parts of humanoid races but currently this tool doesn't use it.
+                This means that the contact area of the attacks is used as if hitting a very very big target and thus
+                weapons with a bigger contact area will perform worse than they would otherwise. <br>
+                If you want to get realistic results in this regard against normal size enemies (goblins, humans etc...)
+                just reduce the contact area of the attack to 2500 for example (I will change this later).
             </li>
-            <li>My nemesis, the bouncing formula: Blunt attacks made with low density materials (read, spoiler materials) should bounce but the formula doesn't represent that. Basically, until I find the full form of the formula or
-                Putnam and Tarn come from the heavens the bouncing condition won't work properly (for low density materials).
+            <li>My nemesis, the bouncing formula: Blunt attacks made with low density materials (read, spoiler
+                materials) should bounce but the formula doesn't represent that. Basically, until I find the full form
+                of the formula or
+                Putnam and Tarn come from the heavens the bouncing condition won't work properly (for low density
+                materials).
             </li>
         </ol>
-        <p>If you aren't using low density blunt weapons or high contact area weapons the calculator should work well.</p>
+    </section>
+
+    <main>
+        <p>If you aren't using low density blunt weapons or high contact area weapons the calculator should work well.
+        </p>
         <form onsubmit="return false;" id="offense_characteristics">
 
             <h2>Attacker characteristics</h2>
@@ -58,7 +71,8 @@
             </p>
             <label for="attacker_skill_lvl">Attacker skill level (levels above level 14 don't have any further
                 impact)</label>
-            <input type="number" id="attacker_skill_lvl" name="attacker_skill_lvl" value="1" min="0" max="14"><br>            <label for="attacker_race">Attacker race</label>
+            <input type="number" id="attacker_skill_lvl" name="attacker_skill_lvl" value="1" min="0" max="14"><br>
+            <label for="attacker_race">Attacker race</label>
             <select name="attacker_race" id="attacker_race">
             </select><br>
             <details>
@@ -168,30 +182,32 @@
         </header>
         <details>
             <summary>This are the groups that have been used:</summary>
-        <ul>
-            <li>Skin: SKIN_TEMPLATE, SINEW_TEMPLATE</li>
-            <li>Silver: SILVER, STERLING_SILVER</li>
-            <li>Extracts: PLANT_EXTRACT_TEMPLATE, CREATURE_EXTRACT_TEMPLATE, INK_TEMPLATE</li>
-            <li>Gold: GOLD, ROSE_GOLD</li>
-            <li>Grease: SOAP_TEMPLATE, TALLOW_TEMPLATE, PLANT_SOAP_TEMPLATE</li>
-            <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE,
-                MILK_TEMPLATE,
-                EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
-            <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE,
-                GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE, KIDNEY_TEMPLATE
-            </li>
-            <li>Leather: LEATHER_TEMPLATE, PARCHMENT_TEMPLATE</li>
-            <li>Bone: BONE_TEMPLATE, TOOTH_TEMPLATE, HORN_TEMPLATE, HOOF_TEMPLATE, SHELL_TEMPLATE, EGGSHELL_TEMPLATE
-            </li>
-            <li>Vegetable stuff: LEAF_TEMPLATE, FRUIT_TEMPLATE, BUD_TEMPLATE, MUSHROOM_TEMPLATE, FLOWER_TEMPLATE</li>
-            <li>Tin: TIN, PEWTER_FINE, PEWTER_TRIFLE, PEWTER_LAY</li>
-            <li>Alcohol: PLANT_ALCOHOL_TEMPLATE, CREATURE_ALCOHOL_TEMPLATE</li>
-            <li>Bronze: BRONZE, BISMUTH_BRONZE</li>
-            <li>Copper: COPPER, BILLON, BLACK_BRONZE</li>
-            <li>Fat: FAT_TEMPLATE, SPONGE_TEMPLATE</li>
-        </ul>
+            <ul>
+                <li>Skin: SKIN_TEMPLATE, SINEW_TEMPLATE</li>
+                <li>Silver: SILVER, STERLING_SILVER</li>
+                <li>Extracts: PLANT_EXTRACT_TEMPLATE, CREATURE_EXTRACT_TEMPLATE, INK_TEMPLATE</li>
+                <li>Gold: GOLD, ROSE_GOLD</li>
+                <li>Grease: SOAP_TEMPLATE, TALLOW_TEMPLATE, PLANT_SOAP_TEMPLATE</li>
+                <li>Organic liquid: BLOOD_TEMPLATE, ICHOR_TEMPLATE, GOO_TEMPLATE, SLIME_TEMPLATE, PUS_TEMPLATE,
+                    MILK_TEMPLATE,
+                    EGG_WHITE_TEMPLATE, EGG_YOLK_TEMPLATE, TEARS_TEMPLATE, SPIT_TEMPLATE, SWEAT_TEMPLATE</li>
+                <li>Organs: EYE_TEMPLATE, NERVE_TEMPLATE, BRAIN_TEMPLATE, LUNG_TEMPLATE, HEART_TEMPLATE, LIVER_TEMPLATE,
+                    GUT_TEMPLATE, STOMACH_TEMPLATE, GIZZARD_TEMPLATE, PANCREAS_TEMPLATE, SPLEEN_TEMPLATE,
+                    KIDNEY_TEMPLATE
+                </li>
+                <li>Leather: LEATHER_TEMPLATE, PARCHMENT_TEMPLATE</li>
+                <li>Bone: BONE_TEMPLATE, TOOTH_TEMPLATE, HORN_TEMPLATE, HOOF_TEMPLATE, SHELL_TEMPLATE, EGGSHELL_TEMPLATE
+                </li>
+                <li>Vegetable stuff: LEAF_TEMPLATE, FRUIT_TEMPLATE, BUD_TEMPLATE, MUSHROOM_TEMPLATE, FLOWER_TEMPLATE
+                </li>
+                <li>Tin: TIN, PEWTER_FINE, PEWTER_TRIFLE, PEWTER_LAY</li>
+                <li>Alcohol: PLANT_ALCOHOL_TEMPLATE, CREATURE_ALCOHOL_TEMPLATE</li>
+                <li>Bronze: BRONZE, BISMUTH_BRONZE</li>
+                <li>Copper: COPPER, BILLON, BLACK_BRONZE</li>
+                <li>Fat: FAT_TEMPLATE, SPONGE_TEMPLATE</li>
+            </ul>
         </details>
-        
+
     </aside>
 
     <aside>

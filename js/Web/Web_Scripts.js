@@ -7,6 +7,11 @@ export async function get_data_csv(path) {
     });
     return [columns, data];
 }
+export async function get_data_json(path){
+    let response = await fetch(path);
+    response = (await response.json());
+    return response;
+}
 export function add_option_to_dropdown(
     dropdown,
     value,
@@ -45,7 +50,7 @@ export function load_dropdown({
     });
 }
 export function updateInputField(columns, data, data_row_index, element_to_update) {
-    const column = columns.indexOf(element_to_update.getAttribute("data_column"));
+    const column = columns.indexOf(element_to_update.getAttribute("data-column"));
     let new_value = data[data_row_index][column];
     if (element_to_update.type == "checkbox") {
         new_value = (new_value === "true");
@@ -57,7 +62,7 @@ export function updateInputField(columns, data, data_row_index, element_to_updat
 }
 export function updated_form_fields(columns, data, data_row_index, elements_to_update) {
     for (const element_to_update of elements_to_update) {
-        if (element_to_update.hasAttribute("data_column") && columns.includes(element_to_update.getAttribute("data_column"))
+        if (element_to_update.hasAttribute("data-column") && columns.includes(element_to_update.getAttribute("data-column"))
         ) {
             updateInputField(columns, data, data_row_index, element_to_update);
         }
@@ -102,13 +107,17 @@ export function create_dropdown({
 
     return [label, dropdown];
 }
-export function create_input_field({
-    name,
-    innerText = null,
-    id,
-    type,
-    data_column = null,
-} = {}) {
+export function createInputField({name, id, type, data_column=null}={}){
+    const input_field = document.createElement("input");
+    input_field.type = type;
+    input_field.id = name + "_" + id;
+    input_field.name = name;
+    if (!(data_column === null)) {
+        input_field.setAttribute("data-column", data_column);
+    }
+    return input_field;
+}
+export function create_input_field_and_label({ name, innerText = null, id, type, data_column = null} = {}) {
     const field_id = name + "_" + id;
     const label = document.createElement("label");
     label.setAttribute("for", field_id);
@@ -116,15 +125,8 @@ export function create_input_field({
     if (!(innerText === null)) {
         label.innerHTML = default_text_treatment(innerText);
     }
-
-    const input_field = document.createElement("input");
-    input_field.type = type;
-    input_field.id = field_id;
-    input_field.name = name;
-    if (!(data_column === null)) {
-        input_field.setAttribute("data_column", data_column);
-    }
-    return [label, input_field];
+    const inputField = createInputField({name:name, id:id, type:type, data_column:data_column});
+    return [label, inputField];
 }
 export function round_without_decimals(number, precision = 3) {
     const rounded_number = Math.round(number * 10 ** precision) / 10 ** precision;
@@ -145,7 +147,7 @@ export class Table {
         }
         if (!(headers === null)) {
             this.headers = headers;
-            this.add_row(headers);
+            this.add_row({data:headers, header:true});
         }
     }
     clean_table() {
@@ -153,11 +155,12 @@ export class Table {
             this.table.deleteRow(i);
         }
     }
-    add_row(data, index = -1, header = false) {
+    add_row({data, index = -1, header = false}={}) {
         let row = null;
 
         if (header) {
-            row = this.table.createTHead(index);
+            header = this.table.createTHead(index);
+            row = header.insertRow(index);
         } else {
             row = this.table.insertRow(index);
         }

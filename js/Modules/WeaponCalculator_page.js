@@ -1,4 +1,4 @@
-import { get_data_csv, load_dropdown, updated_form_fields, create_dropdown, create_input_field, default_text_treatment } from "../Web/Web_Scripts.js";
+import { get_data_csv, load_dropdown, updated_form_fields, create_dropdown, create_input_field_and_label, default_text_treatment } from "../Web/Web_Scripts.js";
 import { attack_belongs_to_weapon } from "../DF_Related/DF_Scripts.js";
 import { attack_process_calculation } from "../DF_Related/Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
@@ -213,7 +213,7 @@ function add_layer(layers_div, layer_type = "armor") {
 
     if (layer_type === "armor") {
         const [quality_label, quality_dropdown] = create_dropdown({ name: "armor_quality", id: id });
-        const [rigid_armor_label, rigid_armor_checkbox] = create_input_field({ name: "rigid_armor", id: id, type: "checkbox" });
+        const [rigid_armor_label, rigid_armor_checkbox] = create_input_field_and_label({ name: "rigid_armor", id: id, type: "checkbox" });
         rigid_armor_checkbox.checked = true;
         new_layer.append(quality_label, quality_dropdown, document.createElement("br"));
         new_layer.append(rigid_armor_label, rigid_armor_checkbox, document.createElement("br"));
@@ -281,7 +281,7 @@ function create_lm_characteristics_div(id) {
     input_fields.id = "lm_characteristics_" + id;
     for (const field_type in lm_fields) {
         lm_fields[field_type].forEach((field) => {
-            const [lm_label, lm_field] = create_input_field({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
+            const [lm_label, lm_field] = create_input_field_and_label({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
             input_fields.append(lm_label, lm_field, document.createElement('br'));
         });
     }
@@ -295,7 +295,7 @@ function create_lm_characteristics_details(id){
     input_fields.append(summary)
     for (const field_type in lm_fields) {
         lm_fields[field_type].forEach((field) => {
-            const [lm_label, lm_field] = create_input_field({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
+            const [lm_label, lm_field] = create_input_field_and_label({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, data_column: field });
             input_fields.append(lm_label, lm_field, document.createElement('br'));
         });
     }

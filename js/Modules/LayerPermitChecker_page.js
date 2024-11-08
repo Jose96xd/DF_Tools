@@ -172,7 +172,7 @@ class ArmorTable extends Table {
         let shapedCount = 0;
         for(const [index, piece] of this.armor_pieces.entries()){
             const [info, row] = this.create_row(piece, lastLayerSize, lastLayerVolume, index, shapedCount);
-            this.add_row(row);
+            this.add_row({data:row});
             if (info["isValid"]){
                 lastLayerSize = info["newLayerSize"];
                 //lastLayerVolume += info["pieceVolume"];
