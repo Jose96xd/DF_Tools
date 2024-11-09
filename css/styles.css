@@ -3,19 +3,49 @@ th,
 td {
     border: 1px solid black;
 }
+
 label {
-    width:100px;
-    clear:both;
-    text-align:left;
-    padding-right:10px;
+    width: 100px;
+    clear: both;
+    text-align: left;
+    padding-right: 10px;
 }
-body{
-    margin: 16px;;
+
+body {
+    margin: 16px;
 }
-td 
-{
-    text-align: center; 
+
+td {
+    text-align: center;
     vertical-align: middle;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex-direction: row;
+    flex-shrink: 1;
+}
+
+.gridCell {
+    text-align: center;
+    background-color: white;
+    border-top: thick double #373737;
+    border-left: thick double #373737;
+    border-right: double #373737;
+    border-bottom: double #373737;
+    width: 50px;
+}
+
+.outputTable {
+    width: 100%;
+    border: 2px, solid;
+    padding: 0%;
+}
+.outputTable > td, .outputTable > th, .outputTable > p {
+    border: none;
+    padding: 0%;
 }
