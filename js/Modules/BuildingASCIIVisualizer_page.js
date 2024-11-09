@@ -6,7 +6,7 @@ async function initial_load() {
     const [asciiGrid, asciiInputs] = make_input_table("ASCII Symbols", "asciiCell");
     const [colorGrid, colorInputs] = make_input_table("Color", "colorCell");
     const colorTranslator = new ColorTranslator();
-    colorTranslator.loadColors();    
+    await (colorTranslator.loadColors());    
     
     const outputTitle = document.createElement("h3");
     outputTitle.innerHTML = "Output";
@@ -34,7 +34,10 @@ async function initial_load() {
 
     for(let i = 0; i < 9; i++){
         const aux = function(){
-            const symbol = tranlsateASCII(asciiInputs[i].value);
+            let symbol = tranlsateASCII(asciiInputs[i].value);
+            if (symbol.length === 0){
+                symbol = " ";
+            }
             const colorText = colorInputs[i].value;
             const [color, backgroundColor] = colorTranslator.translateColors(colorText); 
             updateOutputCell(symbol, color["hex"], backgroundColor["hex"], outputCells[i]);
@@ -42,6 +45,7 @@ async function initial_load() {
         colorInputs[i].value = "7:0:1";
         asciiInputs[i].addEventListener("change", aux);
         colorInputs[i].addEventListener("change", aux);
+        asciiInputs[i].dispatchEvent(new Event("change"));
     }
 
 }

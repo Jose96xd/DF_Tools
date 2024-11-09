@@ -44,8 +44,13 @@ td {
     width: 100%;
     border: 2px, solid;
     padding: 0%;
+    border-spacing: 0px;
 }
-.outputTable > td, .outputTable > th, .outputTable > p {
+.outputTable td, .outputTable th, .outputTable p {
     border: none;
-    padding: 0%;
+    padding: 0px;
+    margin: 0px;
+    height: 20px;
+    width: 20px;
+    font-family: 'Courier New', monospace;
 }
