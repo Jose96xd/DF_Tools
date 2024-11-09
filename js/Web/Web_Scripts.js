@@ -9,7 +9,7 @@ export async function get_data_csv(path) {
 }
 export async function get_data_json(path){
     let response = await fetch(path);
-    response = (await response.json());
+    response = await response.json();
     return response;
 }
 export function add_option_to_dropdown(
@@ -147,7 +147,7 @@ export class Table {
         }
         if (!(headers === null)) {
             this.headers = headers;
-            this.add_row({data:headers, header:true});
+            this.addRow({data:headers, header:true});
         }
     }
     clean_table() {
@@ -155,7 +155,7 @@ export class Table {
             this.table.deleteRow(i);
         }
     }
-    add_row({data, index = -1, header = false}={}) {
+    addRow({data, index = -1, header = false}={}) {
         let row = null;
 
         if (header) {
