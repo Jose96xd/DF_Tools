@@ -6,10 +6,7 @@ async function initial_load() {
     const [asciiGrid, asciiInputs] = make_input_table("ASCII Symbols", "asciiCell");
     const [colorGrid, colorInputs] = make_input_table("Color", "colorCell");
     const colorTranslator = new ColorTranslator();
-    colorTranslator.loadColors();
-
-    console.log(colorTranslator.data);
-    
+    colorTranslator.loadColors();    
     
     const outputTitle = document.createElement("h3");
     outputTitle.innerHTML = "Output";

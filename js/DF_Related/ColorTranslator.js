@@ -4,7 +4,7 @@ export class ColorTranslator{
     constructor(){
     }
     async loadColors(){
-        this.colors = await (get_data_json("../../Data/colorData.json"));
+        this.colors = await (get_data_json("../Data/colorData.json"));
         this.colorsNames = [];
         for(const color of Object.keys(this.colors)){
             this.colorsNames.push(color);
