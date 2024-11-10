@@ -107,8 +107,13 @@ function generateRawStrings(asciiInputs, colorInputs, stage){
                 symbol = "\' \'";
             }
 
-            tileLine += `${symbol}:`; 
-            colorLine += `${colorInputs[index].value}:`; 
+            tileLine += `${symbol}`; 
+            colorLine += `${colorInputs[index].value}`;
+            
+            if ((i !== 2) && (j !== 2)){
+                tileLine += ":"; 
+                colorLine += ":"; 
+            } 
         }
         tileLine += "]";
         colorLine += "]";
