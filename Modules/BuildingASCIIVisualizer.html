@@ -13,13 +13,10 @@
 </head>
 
 <body>
-
-
     <header>
         <a href="../index.html">Back</a>
         <h1>Building ASCII Visualizer</h1>
     </header>
-
     <section>
         <h2>Why for?</h2>
         <p>To have an interactive way of visualizing and generating buildings with ASCII.</p>
@@ -27,19 +24,28 @@
     <section>
         <h2>How to use?</h2>
         <ol>
-            <li>In the ASCII symbols table write the symbols you want to use between quotes or the ASCII value without.
+            <li>In the ASCII symbols table, write the symbols you want to use between simple quotes (like this: 'a') or the CP437 value without (like this: 157).
                 Leave the cells empty if you don't want anything there.</li>
-            <li>In the Color table select the color of each of the symbols (using rgb</li>
+            <li>In the Color table, select the color of each of the symbols using the strange DF color descriptors.</li>
         </ol>
+        <p>For more info about the way DF handles the colors, check the wiki article about <a href="https://dwarffortresswiki.org/index.php/Color#How_colors_are_assigned">color</a>
+        and <a href="https://dwarffortresswiki.org/index.php/Modding#Workshops">mod workshops</a>.</p>
+
+        <p><b>Note:</b> Im still working on the <i>aesthetics</i> of the web and on some minor changes.</p>
     </section>
 
     <main>
         <h2>Building visualizer</h2>
-        <div class="grid">
-
-        </div>
-            
+        <div class="grid"></div>
     </main>
+    <section>
+        <h2>Export tool</h2>
+        <label for="phaseNum">Phase number</label>
+        <input type="number" min="0" value="0" id="stageNum">
+        <button name="rawButton" id="rawButton">Generate raw lines</button>
+
+        <div id="rawDiv"></div>
+    </section>
 
     <script src="../js/Modules/BuildingASCIIVisualizer_page.js" type="module"></script>
 </body>
