@@ -64,9 +64,7 @@ function translateASCII(text){
         return text.replaceAll("\'", "");
     } else{ 
         const code = parseInt(text)
-        const UTF8Code = CP437CodeToUTF8Code(code);
-        console.log(parseInt(text));
-        
+        const UTF8Code = CP437CodeToUTF8Code(code);        
         return String.fromCharCode(UTF8Code);
     }
 }
