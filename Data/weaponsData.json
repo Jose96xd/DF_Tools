@@ -1,0 +1,582 @@
+{
+  "ITEM_WEAPON_WHIP": {
+    "name": "whip",
+    "SIZE": "100",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "1",
+        "penetration": "10",
+        "name": "lash",
+        "velocity_modifier": "5000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_AXE_BATTLE": {
+    "name": "battle axe",
+    "SIZE": "800",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "40000",
+        "penetration": "6000",
+        "name": "hack",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "40000",
+        "penetration": "6000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_HAMMER_WAR": {
+    "name": "war hammer",
+    "SIZE": "400",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "10",
+        "penetration": "200",
+        "name": "bash",
+        "velocity_modifier": "2000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SWORD_SHORT": {
+    "name": "short sword",
+    "SIZE": "300",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "50",
+        "penetration": "2000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SPEAR": {
+    "name": "spear",
+    "SIZE": "400",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "20",
+        "penetration": "10000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "6000",
+        "name": "shaft bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_MACE": {
+    "name": "mace",
+    "SIZE": "800",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "20",
+        "penetration": "200",
+        "name": "bash",
+        "velocity_modifier": "2000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_CROSSBOW": {
+    "name": "crossbow",
+    "SIZE": "400",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "4000",
+        "name": "bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_PICK": {
+    "name": "pick",
+    "SIZE": "500",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "100",
+        "penetration": "4000",
+        "name": "strike",
+        "velocity_modifier": "2000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_BOW": {
+    "name": "bow",
+    "SIZE": "300",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "4000",
+        "name": "bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_BLOWGUN": {
+    "name": "blowgun",
+    "SIZE": "150",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "4000",
+        "name": "bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_PIKE": {
+    "name": "pike",
+    "SIZE": "800",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "20",
+        "penetration": "12000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "6000",
+        "name": "shaft bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_HALBERD": {
+    "name": "halberd",
+    "SIZE": "1200",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "20000",
+        "penetration": "8000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "50",
+        "penetration": "2000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "20000",
+        "penetration": "6000",
+        "name": "shaft bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SWORD_2H": {
+    "name": "two-handed sword",
+    "SIZE": "900",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "100000",
+        "penetration": "8000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "50",
+        "penetration": "4000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100000",
+        "penetration": "8000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SWORD_LONG": {
+    "name": "long sword",
+    "SIZE": "700",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "60000",
+        "penetration": "6000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "50",
+        "penetration": "3000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "60000",
+        "penetration": "6000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_MAUL": {
+    "name": "maul",
+    "SIZE": "1300",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "6000",
+        "name": "bash",
+        "velocity_modifier": "2000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_AXE_GREAT": {
+    "name": "great axe",
+    "SIZE": "1300",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "60000",
+        "penetration": "8000",
+        "name": "hack",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "60000",
+        "penetration": "8000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_DAGGER_LARGE": {
+    "name": "dagger",
+    "SIZE": "200",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "1000",
+        "penetration": "800",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "5",
+        "penetration": "1000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "20",
+        "penetration": "600",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SCOURGE": {
+    "name": "scourge",
+    "SIZE": "300",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "10",
+        "penetration": "50",
+        "name": "lash",
+        "velocity_modifier": "2000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_FLAIL": {
+    "name": "flail",
+    "SIZE": "500",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "200",
+        "penetration": "4000",
+        "name": "bash",
+        "velocity_modifier": "2500"
+      }
+    ]
+  },
+  "ITEM_WEAPON_MORNINGSTAR": {
+    "name": "morningstar",
+    "SIZE": "500",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "10",
+        "penetration": "500",
+        "name": "bash",
+        "velocity_modifier": "2000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "50",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SCIMITAR": {
+    "name": "scimitar",
+    "SIZE": "300",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "EDGE",
+        "contact_area": "50",
+        "penetration": "2000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "50",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_AXE_TRAINING": {
+    "name": "training axe",
+    "SIZE": "800",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "30000",
+        "penetration": "6000",
+        "name": "hack",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "30000",
+        "penetration": "6000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SWORD_SHORT_TRAINING": {
+    "name": "training sword",
+    "SIZE": "300",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "slash",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "50",
+        "penetration": "2000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "20000",
+        "penetration": "4000",
+        "name": "flat slap",
+        "velocity_modifier": "1250"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "100",
+        "penetration": "1000",
+        "name": "pommel strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_WEAPON_SPEAR_TRAINING": {
+    "name": "training spear",
+    "SIZE": "400",
+    "attacks": [
+      {
+        "type": "BLUNT",
+        "contact_area": "200",
+        "penetration": "10000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      },
+      {
+        "type": "BLUNT",
+        "contact_area": "10000",
+        "penetration": "6000",
+        "name": "shaft bash",
+        "velocity_modifier": "1250"
+      }
+    ]
+  },
+  "ITEM_TRAPCOMP_GIANTAXEBLADE": {
+    "name": "axe blade",
+    "SIZE": "1600",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "100000",
+        "penetration": "10000",
+        "name": "slash",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_TRAPCOMP_ENORMOUSCORKSCREW": {
+    "name": "corkscrew",
+    "SIZE": "1600",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "100",
+        "penetration": "10000",
+        "name": "drill",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_TRAPCOMP_SPIKEDBALL": {
+    "name": "ball",
+    "SIZE": "1000",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "10",
+        "penetration": "200",
+        "name": "strike",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_TRAPCOMP_LARGESERRATEDDISC": {
+    "name": "disc",
+    "SIZE": "1000",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "100000",
+        "penetration": "10000",
+        "name": "saw",
+        "velocity_modifier": "1000"
+      }
+    ]
+  },
+  "ITEM_TRAPCOMP_MENACINGSPIKE": {
+    "name": "spike",
+    "SIZE": "1600",
+    "attacks": [
+      {
+        "type": "EDGE",
+        "contact_area": "10",
+        "penetration": "6000",
+        "name": "stab",
+        "velocity_modifier": "1000"
+      }
+    ]
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "DWARF": {
+    "name": "dwarf",
+    "STRENGTH": "1250",
+    "BODY_SIZE": "60000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "HUMAN": {
+    "name": "human",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "70000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "ELF": {
+    "name": "elf",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "60000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "GOBLIN": {
+    "name": "goblin",
+    "STRENGTH": "1250",
+    "BODY_SIZE": "60000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "KOBOLD": {
+    "name": "kobold",
+    "STRENGTH": "1250",
+    "BODY_SIZE": "20000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "GREMLIN": {
+    "name": "gremlin",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "10000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "TROLL": {
+    "name": "troll",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "250000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "OGRE": {
+    "name": "ogre",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "6000000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "UNICORN": {
+    "name": "unicorn",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "600000",
+    "characteristics": []
+  },
+  "DRAGON": {
+    "name": "dragon",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "25000000",
+    "characteristics": []
+  },
+  "SATYR": {
+    "name": "satyr",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "60000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "COLOSSUS_BRONZE": {
+    "name": "bronze colossus",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "20000000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "GIANT": {
+    "name": "giant",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "9000000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "CYCLOPS": {
+    "name": "cyclops",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "8000000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "ETTIN": {
+    "name": "ettin",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "8000000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "MINOTAUR": {
+    "name": "minotaur",
+    "STRENGTH": "1250",
+    "BODY_SIZE": "220000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "YETI": {
+    "name": "yeti",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "300000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "SASQUATCH": {
+    "name": "sasquatch",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "300000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "BLIZZARD_MAN": {
+    "name": "blizzard man",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "300000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "WOLF_ICE": {
+    "name": "ice wolf",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "50000",
+    "characteristics": []
+  },
+  "FAIRY": {
+    "name": "fairy",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "100",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "PIXIE": {
+    "name": "pixie",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "1",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "BEAK_DOG": {
+    "name": "beak dog",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "150000",
+    "characteristics": []
+  },
+  "GRIMELING": {
+    "name": "grimeling",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "70000",
+    "characteristics": []
+  },
+  "BLENDEC_FOUL": {
+    "name": "foul blendec",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "60000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "STRANGLER": {
+    "name": "strangler",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "40000",
+    "characteristics": []
+  },
+  "NIGHTWING": {
+    "name": "nightwing",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "120000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "HARPY": {
+    "name": "harpy",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "60000",
+    "characteristics": []
+  },
+  "HYDRA": {
+    "name": "hydra",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "8000000",
+    "characteristics": []
+  },
+  "MERPERSON": {
+    "name": "merperson",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "70000",
+    "characteristics": [
+      "EQUIPS"
+    ]
+  },
+  "SEA_SERPENT": {
+    "name": "sea serpent",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "9000000",
+    "characteristics": []
+  },
+  "SEA_MONSTER": {
+    "name": "sea monster",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "8000000",
+    "characteristics": []
+  },
+  "BIRD_ROC": {
+    "name": "roc",
+    "STRENGTH": 1000,
+    "BODY_SIZE": "20000000",
+    "characteristics": []
+  }
+}
