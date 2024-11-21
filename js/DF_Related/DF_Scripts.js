@@ -1,5 +1,5 @@
 import { BasicElement } from "../Classes/BasicElement.js";
-import { Table, create_dropdown, load_dropdown, default_text_treatment } from "../Web/Web_Scripts.js";
+import { Table, createDropdown, load_dropdown, defaultTextTreatment } from "../Web/Web_Scripts.js";
 
 export const TEMPERATURE_UNITS = Object.freeze({
     URIST: Symbol(),

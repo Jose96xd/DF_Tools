@@ -2,7 +2,7 @@ import { BasicElement } from "./BasicElement.js";
 import { Material } from "./Material.js";
 
 export class Armor extends BasicElement{
-    constructor({id, name=null, quality=1, material=new Material(), is_rigid=true, armor_type, layer, coverage, layer_size, layer_permit, is_shaped, ubstep=0, lbstep=0, upstep=0}={}){
+    constructor({id, name=null, quality=1, material=new Material(), armor_type, layer, coverage, layer_size, layer_permit, is_shaped, ubstep=0, lbstep=0, upstep=0}={}){
         super({id, name});
         this.quality = quality;
         this.material = material;

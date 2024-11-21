@@ -1,11 +1,11 @@
 import { TEMPERATURE_UNITS, TemperatureConverter } from "../DF_Related/DF_Scripts.js";
-import { default_text_treatment, round_without_decimals } from "../Web/Web_Scripts.js";
+import { defaultTextTreatment, roundWithoutDecimals } from "../Web/Web_Scripts.js";
 
 function initial_load(){
     const temp_div = document.getElementById("temp_div");
 
     for (const [unit, value] of Object.entries(TEMPERATURE_UNITS)) {
-        const text = `Temperature in ${default_text_treatment(unit)}`;
+        const text = `Temperature in ${defaultTextTreatment(unit)}`;
 
         const label = document.createElement("label");
         label.setAttribute("for", unit);
@@ -32,7 +32,7 @@ function updated_temp_fields(unit, temperature, div){
     for (const child of div.children){
         if (child.hasAttribute("unit")){
             const value = conversions[TEMPERATURE_UNITS[child.getAttribute("unit")]];
-            child.value = round_without_decimals(value);
+            child.value = roundWithoutDecimals(value);
         }
     }
 }

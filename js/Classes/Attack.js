@@ -1,16 +1,18 @@
 import { BasicElement } from "./BasicElement.js";
 
 export class Attack extends BasicElement{
-    constructor({id, name=null, contact_area, velocity_modifier, is_blunt}={}){
+    constructor({id, name=null, contactArea, velocityModifier, penetration, type}={}){
         super({id, name});
-        this.contact_area = contact_area;
-        this.velocity_modifier = velocity_modifier;
-        this.is_blunt = is_blunt;
+        this.contactArea = contactArea;
+        this.velocityModifier = velocityModifier;
+        this.penetration = penetration;
+        this.type = type;
+        this.isBlunt = (this.type === "BLUNT");
     }
     get_adjusted_velocity(){
-        return this.velocity_modifier / 10**3;
+        return this.velocityModifier / 10**3;
     }
     get_adjusted_contact_area(){
-        return this.contact_area / 10**3;
+        return this.contactArea / 10**3;
     }
 }

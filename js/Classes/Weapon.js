@@ -1,7 +1,8 @@
 import { BasicElement } from "./BasicElement.js";
+import { Material } from "./Material.js";
 
 export class Weapon extends BasicElement{
-    constructor({id, name=null, quality=1, size, material, attacks}={}){
+    constructor({id, name=null, quality=1, size, material=new Material(), attacks}={}){
         super({id, name});
         this.size = size;
         this.quality = quality;
