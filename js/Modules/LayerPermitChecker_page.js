@@ -1,5 +1,4 @@
-import { get_data_csv, load_dropdown, defaultIdTreatment, createDropdown, defaultTextTreatment, updateInputField, Table, roundWithoutDecimals, loadDropdown} from "../Web/Web_Scripts.js";
-import { search_element_by_id, armor_is_of_type } from "../DF_Related/DF_Scripts.js";
+import { defaultIdTreatment, createDropdown, defaultTextTreatment, updateInputField, Table, roundWithoutDecimals, loadDropdown} from "../Web/Web_Scripts.js";
 import { Armor } from "../Classes/Armor.js";
 import { ArmorRepository, RacesRepository } from "../Web/DataRepositore.js";
 
@@ -12,20 +11,10 @@ const RELATIVE_SIZES = Object.freeze({
     "FEET": 1514 / 70000
 });
 
-let armor_columns = null;
-let armor_data = null;
-
-let races_columns = null;
-let races_data = null;
-
 const armor_table_columns = Object.freeze(["Name", "Layer", "Coverage", "Layer size", "Layer permit", "Total layers size", "Shaped?",  "Valid?", "Physical volume of the layers", "Delete"]);
 const sorted_layers = Object.freeze(["UNDER", "OVER", "ARMOR", "COVER"]);
 
 async function initial_load() {
-
-    [armor_columns, armor_data] = await get_data_csv("../Data/clothes_data.csv");
-    [races_columns, races_data] = await get_data_csv("../Data/races_data.csv");
-
     const armor = new ArmorRepository();
     const armorPromise = armor.load();
     const races = new RacesRepository();
@@ -112,25 +101,6 @@ function saveArmorPiece(armorSaveForm, helmTable, armorTable, glovesTable, pants
 }
 function filterArmorFunction(type){
     return function(piece){ return piece.armor_type === type; };
-}
-function save_armor_piece(armor_save_form) {
-    const form_data = new FormData(armor_save_form);
-    const new_row = [];
-    const id = defaultIdTreatment(form_data.get("armor_name"));
-    form_data.append("armor_id", id);
-
-    const id_in_data = search_element_by_id(armor_data, id);
-    
-    if (id_in_data === -1) {
-        for (const column of armor_columns) {
-            const aux = form_data.get(column);
-            new_row.push(aux);
-            if (column === "shaped") {
-                new_row[new_row.length - 1] = form_data.has("shaped");
-            }
-        }
-        armor_data.push(new_row)        
-    }
 }
 function sort_armor(piece_A, piece_B){
     let order = sorted_layers.indexOf(piece_A.layer) - sorted_layers.indexOf(piece_B.layer);

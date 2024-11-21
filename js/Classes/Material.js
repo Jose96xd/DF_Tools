@@ -22,7 +22,6 @@ export class Material extends BasicElement{
     get_adjusted_impact_fracture(){
         return this.impact_fracture / 10**6;
     }
-    
     get_adjusted_max_edge(){
         return this.max_edge / 10**4;
     }

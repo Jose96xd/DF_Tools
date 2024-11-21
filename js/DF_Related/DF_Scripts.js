@@ -1,6 +1,3 @@
-import { BasicElement } from "../Classes/BasicElement.js";
-import { Table, createDropdown, load_dropdown, defaultTextTreatment } from "../Web/Web_Scripts.js";
-
 export const TEMPERATURE_UNITS = Object.freeze({
     URIST: Symbol(),
     CELSIUS: Symbol(),

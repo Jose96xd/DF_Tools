@@ -1,5 +1,4 @@
-import { get_data_csv, load_dropdown, updated_form_fields, createDropdown, createInputFieldAndLabel, defaultTextTreatment, loadDropdown, updateFormFields } from "../Web/Web_Scripts.js";
-import { attack_belongs_to_weapon } from "../DF_Related/DF_Scripts.js";
+import { createDropdown, createInputFieldAndLabel, defaultTextTreatment, loadDropdown, updateFormFields } from "../Web/Web_Scripts.js";
 import { attack_process_calculation } from "../DF_Related/Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
 import { Weapon } from "../Classes/Weapon.js";
@@ -7,18 +6,6 @@ import { Attack } from "../Classes/Attack.js";
 import { Material } from "../Classes/Material.js";
 import { Armor } from "../Classes/Armor.js";
 import { MaterialRepository, RacesRepository, WeaponsRepository } from "../Web/DataRepositore.js";
-
-let materials_data = null;
-let materials_columns = null;
-
-let weapons_data = null;
-let weapons_columns = null;
-
-let attacks_data = null;
-let attacks_columns = null;
-
-let races_data = null;
-let races_columns = null;
 
 let materials = null;
 

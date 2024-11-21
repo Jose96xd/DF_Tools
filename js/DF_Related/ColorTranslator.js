@@ -10,7 +10,6 @@ export class ColorTranslator{
             this.colorsNames.push(color);
         }
     }
-
     translateColors(colorText){
         const attributes = colorText.split(":");
         let colorIndex = parseInt(attributes[0]);
@@ -23,7 +22,6 @@ export class ColorTranslator{
         const backgroundColor = this.colors[this.colorsNames[backgroundColorIndex]];
         return [color, backgroundColor];
     }
-
     getColor(index){
         return this.colors[this.colorsNames[index]];
     }
