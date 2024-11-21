@@ -1,6 +1,7 @@
-import { get_data_csv, load_dropdown, default_id_treatment, create_dropdown, default_text_treatment, updateInputField, Table, round_without_decimals} from "../Web/Web_Scripts.js";
+import { get_data_csv, load_dropdown, defaultIdTreatment, createDropdown, defaultTextTreatment, updateInputField, Table, roundWithoutDecimals, loadDropdown} from "../Web/Web_Scripts.js";
 import { search_element_by_id, armor_is_of_type } from "../DF_Related/DF_Scripts.js";
 import { Armor } from "../Classes/Armor.js";
+import { ArmorRepository, RacesRepository } from "../Web/DataRepositore.js";
 
 // Hardcoded values until i finish the scraping
 const RELATIVE_SIZES = Object.freeze({
@@ -25,56 +26,97 @@ async function initial_load() {
     [armor_columns, armor_data] = await get_data_csv("../Data/clothes_data.csv");
     [races_columns, races_data] = await get_data_csv("../Data/races_data.csv");
 
-    const armor_save_form = document.getElementById("armor_save_form");
-    const armor_save_button = document.getElementById("save_button");
+    const armor = new ArmorRepository();
+    const armorPromise = armor.load();
+    const races = new RacesRepository();
+    const racesPromise = races.load();
+
+    const armorSaveForm = document.getElementById("armor_save_form");
+    const armorSaveButton = document.getElementById("save_button");
     const raceDropdown = document.getElementById("wearerRace");
     const wearerSize = document.getElementById("BODY_SIZE");
-    const tables_section = document.getElementById("tables_section"); 
+    const tablesSection = document.getElementById("tables_section"); 
 
-    const helm_table = new ArmorTable({id:"helm_table", armor_type:"HELM", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.HELM});
-    helm_table.make_table(tables_section, "Helm section (headgear)", armor_data);
-
-    const armor_table = new ArmorTable({id:"armor_table", armor_type:"ARMOR", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.UPPER_BODY});
-    armor_table.make_table(tables_section, "Armor section (upper body)", armor_data);
-
-    const gloves_table = new ArmorTable({id:"gloves_table", armor_type:"GLOVES", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.HANDS});
-    gloves_table.make_table(tables_section, "Gloves section (hands)", armor_data);
-
-    const pants_table = new ArmorTable({id:"pants_table", armor_type:"PANTS", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.LOWER_BODY});
-    pants_table.make_table(tables_section, "Pants section (lower body)", armor_data);
-
-    const shoes_table = new ArmorTable({id:"shoes_table", armor_type:"SHOES", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.FEET});
-    shoes_table.make_table(tables_section, "Shoes section (footwear)", armor_data);
-
-    armor_save_button.addEventListener("click", function(){
-        save_armor_piece(armor_save_form);
-        helm_table.load_armor_dropdown(armor_data);
-        armor_table.load_armor_dropdown(armor_data);
-        gloves_table.load_armor_dropdown(armor_data);
-        pants_table.load_armor_dropdown(armor_data);
-        shoes_table.load_armor_dropdown(armor_data);
+    await armorPromise;
+    const helmTable = new ArmorTable({id:"helm_table", armor_type:"HELM", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.HELM,
+        armorRepository:armor.getSubRepository(filterArmorFunction("HELM"))
     });
+    helmTable.make_table(tablesSection, "Helm section (headgear)");
+
+    const armorTable = new ArmorTable({id:"armor_table", armor_type:"ARMOR", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.UPPER_BODY,
+        armorRepository:armor.getSubRepository(filterArmorFunction("ARMOR"))
+    });
+    armorTable.make_table(tablesSection, "Armor section (upper body)");
+
+    const glovesTable = new ArmorTable({id:"gloves_table", armor_type:"GLOVES", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.HANDS,
+        armorRepository:armor.getSubRepository(filterArmorFunction("GLOVES"))
+    });
+    glovesTable.make_table(tablesSection, "Gloves section (hands)");
+
+    const pantsTable = new ArmorTable({id:"pants_table", armor_type:"PANTS", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.LOWER_BODY,
+        armorRepository:armor.getSubRepository(filterArmorFunction("PANTS"))
+    });
+    pantsTable.make_table(tablesSection, "Pants section (lower body)");
+
+    const shoesTable = new ArmorTable({id:"shoes_table", armor_type:"SHOES", columns:armor_table_columns, bodyPartRelativeSize:RELATIVE_SIZES.FEET,
+        armorRepository:armor.getSubRepository(filterArmorFunction("SHOES"))
+    });
+    shoesTable.make_table(tablesSection, "Shoes section (footwear)");
+
+   armorSaveButton.addEventListener("click", function(){
+        saveArmorPiece(armorSaveForm);
+   });
 
     wearerSize.addEventListener("change", function(){
-        helm_table.bodySize = wearerSize.value;
-        armor_table.bodySize = wearerSize.value;
-        gloves_table.bodySize = wearerSize.value;
-        pants_table.bodySize = wearerSize.value;
-        shoes_table.bodySize = wearerSize.value;
+        helmTable.bodySize = wearerSize.value;
+        armorTable.bodySize = wearerSize.value;
+        glovesTable.bodySize = wearerSize.value;
+        pantsTable.bodySize = wearerSize.value;
+        shoesTable.bodySize = wearerSize.value;
     });
 
-    load_dropdown({ data: races_data, dropdown: raceDropdown, starting_selected_id: "HUMAN" });
+    await racesPromise;
+    loadDropdown(races.getAttributes("id"), races.getAttributes("name"), raceDropdown, "HUMAN");
     raceDropdown.addEventListener("change", function () {
-        updateInputField(races_columns, races_data, raceDropdown.value, wearerSize);
+        const race = races.getById(raceDropdown.value);
+        updateInputField(wearerSize, race.raceBodySize);
         wearerSize.dispatchEvent(new Event("change"));
     });
 
     raceDropdown.dispatchEvent(new Event("change"));
 }
+function saveArmorPiece(armorSaveForm, helmTable, armorTable, glovesTable, pantsTable, shoesTable){
+    const newPiece = new Armor({
+        id:defaultIdTreatment(armorSaveForm["armor_name"]), name:armorSaveForm["armor_name"], armor_type: armorSaveForm["armor_type"],
+        layer: armorSaveForm["layer"], coverage: armorSaveForm["coverage"],
+        layer_size: armorSaveForm["layer_size"], layer_permit: armorSaveForm["layer_permit"], is_shaped: armorSaveForm["shaped"],
+        ubstep: armorSaveForm["ubstep"], lbstep: armorSaveForm["lbstep"], upstep: armorSaveForm["upstep"]
+    });
+    switch (newPiece.armor_type){
+        case helmTable.armor_type:
+            helmTable.addPiece(newPiece);
+            break;
+        case armorTable.armor_type:
+            armorTable.addPiece(newPiece);
+            break;
+        case glovesTable.armor_type:
+            glovesTable.addPiece(newPiece);
+            break;  
+        case pantsTable.armor_type:
+            pantsTable.addPiece(newPiece);
+            break;    
+        case shoesTable.armor_type:
+            shoesTable.addPiece(newPiece);
+            break;
+    }
+}
+function filterArmorFunction(type){
+    return function(piece){ return piece.armor_type === type; };
+}
 function save_armor_piece(armor_save_form) {
     const form_data = new FormData(armor_save_form);
     const new_row = [];
-    const id = default_id_treatment(form_data.get("armor_name"));
+    const id = defaultIdTreatment(form_data.get("armor_name"));
     form_data.append("armor_id", id);
 
     const id_in_data = search_element_by_id(armor_data, id);
@@ -101,47 +143,41 @@ function sort_armor(piece_A, piece_B){
     return order;
 }
 class ArmorTable extends Table {
-    constructor({ id = null, armor_type, columns, bodyPartRelativeSize: bodyPartRelativeSize, bodySize=1} = {}) {
+    constructor({ id = null, armor_type, columns, bodyPartRelativeSize: bodyPartRelativeSize, bodySize=1, armorRepository} = {}) {
         super({ id: id, headers: columns })
         this.armor_type = armor_type;
         this.columns = columns;
-        this.armor_pieces = [];
+        this.armorPieces = [];
+        this.armorRepository = armorRepository;
         this.bodyPartRelativeSize = bodyPartRelativeSize;
         this.bodySize = bodySize;
     }
-    add_piece(index) {
-        const piece_data = this.data[index];
-        const piece = Armor.from_csv(piece_data);
-        this.armor_pieces.push(piece);
-        this.armor_pieces.sort(sort_armor);
-        this.plot_rows(piece);
+    addPiece(id){
+        const piece = this.armorRepository.getById(id);
+        this.armorPieces.push(piece);
+        this.armorPieces.sort(sort_armor);
+        this.plotRows();
     }
-    make_table(div, title_text, data) {
+    make_table(div, title_text) {
         this.title = document.createElement("h3");
         this.title.innerHTML = title_text;
-        const [armor_label, armor_dropdown] = create_dropdown({ name: this.armor_type + "_piece_to_add" });
+        const [armor_label, armor_dropdown] = createDropdown({ name: this.armor_type + "_piece_to_add" });
         this.label = armor_label;
         this.dropdown = armor_dropdown;
 
         this.addition_button = document.createElement("button");
         const id = "add_" + this.armor_type + "_piece"
         this.addition_button.id = id;
-        this.addition_button.innerHTML = default_text_treatment(id);        
+        this.addition_button.innerHTML = defaultTextTreatment(id);        
 
         this.addition_button.addEventListener("click", (function(){
-            this.add_piece(armor_dropdown.value);
+            this.addPiece(armor_dropdown.value);
         }).bind(this));
 
         div.append(this.title, armor_label, armor_dropdown, this.addition_button)
         div.append(this.table);
-
-        this.load_armor_dropdown(data);
-    }
-    load_armor_dropdown(data) {
-        this.data = data;        
-        const aux = this.armor_type
-        const fun = function (element) { return armor_is_of_type(element, aux); }
-        load_dropdown({ data: this.data, dropdown: this.dropdown, filling_column: 1, load_condition: fun });
+        
+        loadDropdown(this.armorRepository.getAttributes("id"), this.armorRepository.getAttributes("name"), this.dropdown);
     }
     create_row(piece, lastLayerSize, lastVolume, rowIndex, shapedCount){
         const newLayerSize = parseInt(lastLayerSize) + parseInt(piece.layer_size);        
@@ -157,25 +193,25 @@ class ArmorTable extends Table {
         deleteButton.innerText = "Delete piece";
         deleteButton.name = "deletePiece";
         deleteButton.addEventListener("click", (function(){
-            this.armor_pieces.splice(rowIndex, 1);
-            this.plot_rows();
+            this.armorPieces.splice(rowIndex, 1);
+            this.plotRows();
         }).bind(this));
 
         const info = {"newLayerSize":newLayerSize, "isValid":isValid, "pieceVolume":pieceVolume};
-        const row = [default_text_treatment(piece.name), piece.layer, piece.coverage, piece.layer_size, piece.layer_permit, lastLayerSize, shapedText, validText, round_without_decimals(pieceVolume), deleteButton];
+        const row = [defaultTextTreatment(piece.name), piece.layer, piece.coverage, piece.layer_size, piece.layer_permit, lastLayerSize, shapedText, validText, roundWithoutDecimals(pieceVolume), deleteButton];
         return [info, row];
     }
-    plot_rows(){
-        this.clean_table();
+    plotRows(){
+        this.cleanTable();
         let lastLayerSize = 0;
         let lastLayerVolume = this.bodySize * this.bodyPartRelativeSize;
         let shapedCount = 0;
-        for(const [index, piece] of this.armor_pieces.entries()){
+        for(const [index, piece] of this.armorPieces.entries()){
             const [info, row] = this.create_row(piece, lastLayerSize, lastLayerVolume, index, shapedCount);
             this.addRow({data:row});
             if (info["isValid"]){
                 lastLayerSize = info["newLayerSize"];
-                //lastLayerVolume += info["pieceVolume"];
+                //lastLayerVolume += info["pieceVolume"]; // In theory size is not accumulative.
                 shapedCount += (piece.is_shaped ? 1 : 0);
             }
         }

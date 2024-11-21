@@ -7,32 +7,30 @@ export async function get_data_csv(path) {
     });
     return [columns, data];
 }
-export async function get_data_json(path){
-    let response = await fetch(path);
-    response = await response.json();
-    return response;
+export async function loadJson(path){
+    const response = await fetch(path);
+    const json = response.json();
+    return json;
 }
-export function add_option_to_dropdown(
-    dropdown,
-    value,
-    text,
-    selected = false
-) {
+export function addOptionToDropdown( dropdown, value, text, selected = false) {
     const option = new Option(text, value);
     option.selected = selected;
     dropdown.add(option);
 }
+export function loadDropdown(ids, texts, dropdown, startingID=null){
+    clearDropdown(dropdown);
+    for(let i = 0; i < ids.length; i++){
+        const id = ids[i];
+        const text = texts[i];
+        const isSelected = (id === startingID);
+        addOptionToDropdown(dropdown, id, text, isSelected);
+    }
+}
 export function load_dropdown({
-    data,
-    dropdown,
-    starting_selected_id = null,
-    id_column = 0,
-    filling_column = 0,
-    value_column = null,
-    load_condition = null,
-    treatment_function = default_text_treatment,
+    data, dropdown, starting_selected_id = null, id_column = 0, filling_column = 0, value_column = null, load_condition = null,
+    treatment_function = defaultTextTreatment,
 } = {}) {
-    clear_dropdown(dropdown);
+    clearDropdown(dropdown);
     data.forEach((element, index) => {
         const element_id = element[id_column];
         if (load_condition === null || load_condition(element)) {
@@ -45,50 +43,46 @@ export function load_dropdown({
             if (!(starting_selected_id === null)) {
                 selected = starting_selected_id == element_id;
             }
-            add_option_to_dropdown(dropdown, value, filling_text, selected);
+            addOptionToDropdown(dropdown, value, filling_text, selected);
         }
     });
 }
-export function updateInputField(columns, data, data_row_index, element_to_update) {
-    const column = columns.indexOf(element_to_update.getAttribute("data-column"));
-    let new_value = data[data_row_index][column];
-    if (element_to_update.type == "checkbox") {
-        new_value = (new_value === "true");
-        if (!(new_value === element_to_update.checked)) {
-            element_to_update.click();
+export function updateInputField(elementToUpdate, value){
+    let newValue = value
+    if (elementToUpdate.type === "checkbox"){
+        newValue = (newValue === "true");
+        if (!(newValue === elementToUpdate.checked)){
+            elementToUpdate.click();
         }
     }
-    element_to_update.value = new_value;
+    elementToUpdate.value = newValue;
 }
-export function updated_form_fields(columns, data, data_row_index, elements_to_update) {
-    for (const element_to_update of elements_to_update) {
-        if (element_to_update.hasAttribute("data-column") && columns.includes(element_to_update.getAttribute("data-column"))
-        ) {
-            updateInputField(columns, data, data_row_index, element_to_update);
+export function updateFormFields(formFields, dataObject){
+    for (const field of formFields){
+        if (field.hasAttribute("data-Field")){
+            const fieldData = field.getAttribute("data-Field");
+            if (fieldData in dataObject){
+                updateInputField(field, dataObject[fieldData]);
+            }
         }
     }
 }
-export function clear_dropdown(dropdown) {
+export function clearDropdown(dropdown) {
     dropdown.innerHTML = null;
 }
-export function capitalize_phrase(phrase) {
+export function capitalizePhrase(phrase) {
     let capitalize_phrase = phrase.toLowerCase().trim();
     capitalize_phrase =
         capitalize_phrase.charAt(0).toUpperCase() + capitalize_phrase.slice(1);
     return capitalize_phrase;
 }
-export function default_text_treatment(text) {
-    return capitalize_phrase(text.trim().replaceAll(/[^a-zA-Z0-9]/gi, " "));
+export function defaultTextTreatment(text) {
+    return capitalizePhrase(text.trim().replaceAll(/[^a-zA-Z0-9]/gi, " "));
 }
-export function default_id_treatment(text) {
+export function defaultIdTreatment(text) {
     return text.trim().replaceAll(" ", "_").toUpperCase();
 }
-export function create_dropdown({
-    name,
-    id = null,
-    text = null,
-    treatment_function = default_text_treatment,
-} = {}) {
+export function createDropdown({name, id = null, text = null, treatment_function = defaultTextTreatment} = {}) {
     let id_text = name;
 
     if (!(id === null)) {
@@ -107,28 +101,28 @@ export function create_dropdown({
 
     return [label, dropdown];
 }
-export function createInputField({name, id, type, data_column=null}={}){
+export function createInputField({name, id, type, dataField=null}={}){
     const input_field = document.createElement("input");
     input_field.type = type;
     input_field.id = name + "_" + id;
     input_field.name = name;
-    if (!(data_column === null)) {
-        input_field.setAttribute("data-column", data_column);
+    if (!(dataField === null)) {
+        input_field.setAttribute("data-Field", dataField);
     }
     return input_field;
 }
-export function create_input_field_and_label({ name, innerText = null, id, type, data_column = null} = {}) {
+export function createInputFieldAndLabel({ name, innerText = null, id, type, dataField = null} = {}) {
     const field_id = name + "_" + id;
     const label = document.createElement("label");
     label.setAttribute("for", field_id);
-    label.innerHTML = default_text_treatment(name);
+    label.innerHTML = defaultTextTreatment(name);
     if (!(innerText === null)) {
-        label.innerHTML = default_text_treatment(innerText);
+        label.innerHTML = defaultTextTreatment(innerText);
     }
-    const inputField = createInputField({name:name, id:id, type:type, data_column:data_column});
+    const inputField = createInputField({name:name, id:id, type:type, dataField:dataField});
     return [label, inputField];
 }
-export function round_without_decimals(number, precision = 3) {
+export function roundWithoutDecimals(number, precision = 3) {
     const rounded_number = Math.round(number * 10 ** precision) / 10 ** precision;
     return rounded_number;
 }
@@ -150,7 +144,7 @@ export class Table {
             this.addRow({data:headers, header:true});
         }
     }
-    clean_table() {
+    cleanTable() {
         for (let i = this.table.rows.length - 1; i >= 1; i--) {
             this.table.deleteRow(i);
         }

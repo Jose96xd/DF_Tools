@@ -52,7 +52,7 @@
         <p><b>Note:</b> Default values bellow are those of a breastplate (because i like them).</p>
         <form onsubmit="return false;" id="armor_save_form">
             <label for="armor_name">Armor name</label>
-            <input type="text" id="armor_name" name="armor_name" data-column="name" value="Cooler breastplate"><br>
+            <input type="text" id="armor_name" name="armor_name" data-Field="name" value="Cooler breastplate"><br>
             <label for="armor_type">Armor type (where does it go?)</label>
             <select name="armor_type" id="armor_type">
                 <option value="ARMOR" selected>Armor</option>
@@ -69,20 +69,20 @@
                 <option value="COVER">Cover</option>
             </select><br>
             <label for="coverage">Armor layer coverage</label>
-            <input type="number" id="coverage" name="coverage" value="100" min="0" max="100" data-column="coverage"><br>
+            <input type="number" id="coverage" name="coverage" value="100" min="0" max="100" data-Field="coverage"><br>
             <label for="layer_size">Armor layer size</label>
-            <input type="number" id="layer_size" name="layer_size" value="20" min="0" data-column="layer_size"><br>
+            <input type="number" id="layer_size" name="layer_size" value="20" min="0" data-Field="layer_size"><br>
             <label for="layer_permit">Armor layer permit</label>
             <input type="number" id="layer_permit" name="layer_permit" value="50" min="0"
-                data-column="layer_permit"><br>
-            <label for="UBSTEP">UBSTEP value</label>
-            <input type="text" id="UBSTEP" name="UBSTEP" data-column="UBSTEP" value="0"><br>
-            <label for="LBSTEP">LBSTEP value</label>
-            <input type="text" id="LBSTEP" name="LBSTEP" data-column="LBSTEP" value="0"><br>
-            <label for="UPSTEP">UPSTEP value</label>
-            <input type="text" id="UPSTEP" name="UPSTEP" data-column="UPSTEP" value="0"><br>
+                data-Field="layer_permit"><br>
+            <label for="ubstep">UBSTEP value</label>
+            <input type="text" id="ubstep" name="ubstep" data-Field="ubstep" value="0"><br>
+            <label for="lbstep">LBSTEP value</label>
+            <input type="text" id="lbstep" name="lbstep" data-Field="lbstep" value="0"><br>
+            <label for="upstep">UPSTEP value</label>
+            <input type="text" id="upstep" name="upstep" data-Field="upstep" value="0"><br>
             <label for="shaped">Shaped armor</label>
-            <input type="checkbox" id="shaped" name="shaped" data-column="shaped" value="true" checked><br>
+            <input type="checkbox" id="shaped" name="shaped" data-Field="shaped" value="true" checked><br>
             <button name="save_button" id="save_button">Save</button>
         </form>
     </section>
@@ -103,7 +103,7 @@
         <label for="wearerRace">Wearer Race</label>
         <select name="wearerRace" id="wearerRace"></select><br>
         <label for="BODY_SIZE">Wearer race average size</label>
-        <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data-column="BODY_SIZE"><br>
+        <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data-Field="BODY_SIZE"><br>
 
         <div id="tables_section">
 

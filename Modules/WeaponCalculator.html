@@ -78,12 +78,12 @@
             <details>
                 <summary>Race details</summary>
                 <label for="BODY_SIZE">Race average size</label>
-                <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data-column="BODY_SIZE"><br>
+                <input type="number" id="BODY_SIZE" name="BODY_SIZE" value="1" min="0" data-Field="raceBodySize"><br>
                 <label for="attacker_BODY_SIZE">Attacker specific size</label>
                 <input type="number" id="attacker_BODY_SIZE" name="attacker_BODY_SIZE" value="0" min="0"
-                    data-column="BODY_SIZE"><br>
+                    data-Field="bodySize"><br>
                 <label for="STRENGTH">Attacker strength</label>
-                <input type="number" id="STRENGTH" name="STRENGTH" value="0" min="0" data-column="STRENGTH"><br>
+                <input type="number" id="STRENGTH" name="STRENGTH" value="0" min="0" data-Field="strength"><br>
             </details><br>
 
             <label for="weapon_name">Weapon</label>
@@ -115,16 +115,16 @@
             <details>
                 <summary>Weapon details</summary>
                 <label for="w_SIZE">Weapon size</label>
-                <input type="number" id="w_SIZE" name="w_SIZE" value="800" data-column="SIZE"><br>
+                <input type="number" id="w_SIZE" name="w_SIZE" value="800" data-Field="size"><br>
                 <label for="attack_contact_area">Attack contact_area</label>
                 <input type="number" id="attack_contact_area" name="attack_contact_area" value="40000"
-                    data-column="attack_contact_area"><br>
+                    data-Field="contactArea"><br>
                 <label for="attack_velocity_modifier">Attack velocity modifier</label>
                 <input type="number" id="attack_velocity_modifier" name="attack_velocity_modifier" value="1250"
-                    data-column="attack_velocity_modifier"><br>
+                    data-Field="velocityModifier"><br>
                 <label for="blunt_attack">Blunt attack</label>
                 <input type="checkbox" id="blunt_attack" name="blunt_attack" value="true"
-                    data-column="blunt_attack"><br>
+                    data-Field="isBlunt"><br>
             </details><br>
 
             <label for="weapon_material">Weapon Metal</label>
@@ -134,18 +134,18 @@
                 <summary>Material details</summary>
                 <label for="wm_SOLID_DENSITY">Weapon material density</label>
                 <input type="number" id="wm_SOLID_DENSITY" name="wm_SOLID_DENSITY" value="7850"
-                    data-column="SOLID_DENSITY"><br>
+                    data-Field="solid_density"><br>
                 <label for="wm_IMPACT_YIELD">Weapon material impact yield</label>
                 <input type="number" id="wm_IMPACT_YIELD" name="wm_IMPACT_YIELD" value="1505000"
-                    data-column="IMPACT_YIELD"><br>
+                    data-Field="impact_yield"><br>
                 <label for="wm_SHEAR_YIELD">Weapon material shear yield</label>
                 <input type="number" id="wm_SHEAR_YIELD" name="wm_SHEAR_YIELD" value="430000"
-                    data-column="SHEAR_YIELD"><br>
+                    data-Field="shear_yield"><br>
                 <label for="wm_SHEAR_FRACTURE">Weapon material shear fracture</label>
                 <input type="number" id="wm_SHEAR_FRACTURE" name="wm_SHEAR_FRACTURE" value="720000"
-                    data-column="SHEAR_FRACTURE"><br>
+                    data-Field="shear_fracture"><br>
                 <label for="wm_MAX_EDGE">Weapon material max edge (sharpness)</label>
-                <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data-column="MAX_EDGE"><br>
+                <input type="number" id="wm_MAX_EDGE" name="wm_MAX_EDGE" value="10000" data-Field="max_edge"><br>
             </details>
         </form>
 
