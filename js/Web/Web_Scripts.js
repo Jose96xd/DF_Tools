@@ -50,7 +50,7 @@ export function load_dropdown({
 export function updateInputField(elementToUpdate, value){
     let newValue = value
     if (elementToUpdate.type === "checkbox"){
-        newValue = (newValue === "true");
+        newValue = ((newValue === "true") || (newValue === true));
         if (!(newValue === elementToUpdate.checked)){
             elementToUpdate.click();
         }
