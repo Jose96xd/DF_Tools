@@ -13,16 +13,16 @@ export class Material extends BasicElement{
         this.shear_strain_at_yield = shear_strain_at_yield;
         this.max_edge = max_edge;
     }
-    get_adjusted_solid_density(){
+    getAdjustedSolidDensity(){
         return this.solid_density / 10**3;
     }
-    get_adjusted_impact_yield(){
+    getAdjustedImpactYield(){
         return this.impact_yield / 10**6;
     }
-    get_adjusted_impact_fracture(){
+    getAdjustedImpactFracture(){
         return this.impact_fracture / 10**6;
     }
-    get_adjusted_max_edge(){
+    getAdjustedMaxEdge(){
         return this.max_edge / 10**4;
     }
 }

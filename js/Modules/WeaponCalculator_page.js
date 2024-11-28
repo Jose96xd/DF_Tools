@@ -1,5 +1,5 @@
 import { createDropdown, createInputFieldAndLabel, defaultTextTreatment, loadDropdown, updateFormFields } from "../Web/Web_Scripts.js";
-import { attack_process_calculation } from "../DF_Related/Weapon_Calculator.js";
+import { calculate_momentum, attackProcessCalculation } from "../DF_Related/Weapon_Calculator.js";
 import { Creature } from "../Classes/Creature.js";
 import { Weapon } from "../Classes/Weapon.js";
 import { Attack } from "../Classes/Attack.js";
@@ -12,7 +12,7 @@ let materials = null;
 const quality_tuples = [["Basic", 1], ["-Well-crafted-", 1.2], ["+Finely-crafted+", 1.4], ["*Superior*", 1.6], ["≡Exceptional≡", 1.8], ["☼Masterful☼", 2], ["Artifact", 3]]
 const lm_fields = { "number": ["solid_density", "impact_yield", "impact_fracture", "impact_strain_at_yield", "shear_yield", "shear_fracture", "shear_strain_at_yield"] }
 
-async function initial_load() {
+async function initialLoad() {
 
     const races = new RacesRepository();
     const racesPromise = races.load();
@@ -78,10 +78,10 @@ async function initial_load() {
 
     const calculate_button = document.getElementById("calculate_button");
     calculate_button.addEventListener("click", function () {
-        execute_calculation(new FormData(offenseCharacteristicsForm), momentumParagraph, resultsList, getLayerForms(armorLayersDiv), getLayerForms(bodyLayersDiv));
+        executeCalculation(new FormData(offenseCharacteristicsForm), momentumParagraph, resultsList, getLayerForms(armorLayersDiv), getLayerForms(bodyLayersDiv));
     });
 }
-function execute_calculation(attackData, momentumParagraph, resultsList, armorForms = [], bodyForms = []) {
+function executeCalculation(attackData, momentumParagraph, resultsList, armorForms = [], bodyForms = []) {
     resultsList.innerHTML = "";
     momentumParagraph.innerHTML = "";
 
@@ -105,7 +105,7 @@ function execute_calculation(attackData, momentumParagraph, resultsList, armorFo
     const target_is_prone = (attackData.has("prone_state"));
     const material_force_multiplier = attackData.get("material_force_multiplier");
 
-    let momentum = attacker.get_momentum(0);
+    let momentum = attacker.getMomentum(0);    
     momentum *= attack_type_multiplier;
     momentum *= (target_is_prone ? 2 : 1);
 
@@ -136,7 +136,7 @@ function execute_calculation(attackData, momentumParagraph, resultsList, armorFo
                 shear_yield: layer_data.get("lm_shear_yield"), shear_fracture: layer_data.get("lm_shear_fracture"), shear_strain_at_yield: layer_data.get("lm_shear_strain_at_yield")
             });
             const armor_layer = new Armor({ id: "layer", quality: quality, material: a_material, is_rigid: layer_data.has("is_rigid") });
-            const attack_history = attack_process_calculation(layerMomentum, attacker, bluntAttack, armor_layer, 0);
+            const attack_history = attackProcessCalculation(layerMomentum, attacker, bluntAttack, armor_layer, 0);
 
             const layer_text = document.createElement("li");
             layer_text.innerHTML = getLayerTextResult(attack_history, layer_num, layer_type);
@@ -289,4 +289,4 @@ function createLMCharacteristicsDetails(id) {
     }
     return input_fields;
 }
-initial_load()
+initialLoad()

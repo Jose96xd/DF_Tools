@@ -9,10 +9,10 @@ export class Attack extends BasicElement{
         this.type = type;
         this.isBlunt = (this.type === "BLUNT");
     }
-    get_adjusted_velocity(){
+    getAdjustedVelocity(){
         return this.velocityModifier / 10**3;
     }
-    get_adjusted_contact_area(){
+    getAdjustedContactArea(){
         return this.contactArea / 10**3;
     }
 }

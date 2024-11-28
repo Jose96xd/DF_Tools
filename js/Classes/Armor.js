@@ -16,7 +16,7 @@ export class Armor extends BasicElement{
         this.lbstep = lbstep;
         this.upstep = upstep;
     }
-    momentum_reduction(momentum, blunt_attack, successful_penetration){
+    momentumReduction(momentum, blunt_attack, successful_penetration){
         let final_momentum = momentum - (momentum * 0.05);
         if (!successful_penetration){
             final_momentum = momentum;
@@ -34,14 +34,5 @@ export class Armor extends BasicElement{
         const sizeMultiplier = (this.coverage / 100) * (this.layer_size / 100) * (1 + (ubstepValue + lbstepValue + upstepValue) / 4)
         const size = underlyingSize * sizeMultiplier;
         return size;
-    }
-    static from_csv(line){
-        const piece = new Armor({
-            id:line[0], name:line[1], layer:line[2], coverage:line[3],
-            layer_size:line[4], layer_permit:line[5], is_shaped:(line[6] === "True"),
-            ubstep:line[7], lbstep:line[8], upstep:line[9],
-            armor_type:line[line.length-1]
-        });
-        return piece;
     }
 }
