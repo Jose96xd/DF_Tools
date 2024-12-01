@@ -14,7 +14,7 @@ const RELATIVE_SIZES = Object.freeze({
 const armor_table_columns = Object.freeze(["Name", "Layer", "Coverage", "Layer size", "Layer permit", "Total layers size", "Shaped?",  "Valid?", "Physical volume of the layers", "Delete"]);
 const sorted_layers = Object.freeze(["UNDER", "OVER", "ARMOR", "COVER"]);
 
-async function initial_load() {
+async function initialLoad() {
     const armor = new ArmorRepository();
     const armorPromise = armor.load();
     const races = new RacesRepository();
@@ -151,7 +151,7 @@ class ArmorTable extends Table {
     }
     create_row(piece, lastLayerSize, lastVolume, rowIndex, shapedCount){
         const newLayerSize = parseInt(lastLayerSize) + parseInt(piece.layer_size);        
-        let isValid = lastLayerSize < parseInt(piece.layer_permit);
+        let isValid = lastLayerSize <= parseInt(piece.layer_permit);
         if ((shapedCount > 0) & (piece.is_shaped)){
             isValid = false;
         }
@@ -187,4 +187,4 @@ class ArmorTable extends Table {
         }
     }
 }
-initial_load();
+initialLoad();

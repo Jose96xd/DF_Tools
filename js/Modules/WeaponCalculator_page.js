@@ -70,10 +70,10 @@ async function initialLoad() {
     wmDropdown.dispatchEvent(new Event("change"));
 
     addAmorLayerButton.addEventListener("click", function () {
-        add_layer(armorLayersDiv);
+        addLayer(armorLayersDiv);
     });
     addBodyLayerButton.addEventListener("click", function () {
-        add_layer(bodyLayersDiv, "body");
+        addLayer(bodyLayersDiv, "body");
     });
 
     const calculate_button = document.getElementById("calculate_button");
@@ -201,7 +201,7 @@ function getBluntText(starts_as_blunt_attack, passed_smash_condition, smash_cond
         result_text.push("Attack becomes blunt forever for failing.");
     return result_text;
 }
-function add_layer(layersDiv, layerType = "armor") {
+function addLayer(layersDiv, layerType = "armor") {
     const layerName = defaultTextTreatment(layerType);
 
     const idNumber = layersDiv.children.length.toString();
@@ -276,17 +276,17 @@ function getLayerForms(armor_layers_div) {
     return armor_forms;
 }
 function createLMCharacteristicsDetails(id) {
-    const input_fields = document.createElement("details");
-    input_fields.id = "lm_characteristics_" + id;
+    const inputFields = document.createElement("details");
+    inputFields.id = "lm_characteristics_" + id;
     const summary = document.createElement("summary");
     summary.innerHTML = "Layer details";
-    input_fields.append(summary)
+    inputFields.append(summary);
     for (const field_type in lm_fields) {
         lm_fields[field_type].forEach((field) => {
             const [lm_label, lm_field] = createInputFieldAndLabel({ name: "lm_" + field, innerText: "Layer material " + field, id: id, type: field_type, dataField: field });
-            input_fields.append(lm_label, lm_field, document.createElement('br'));
+            inputFields.append(lm_label, lm_field, document.createElement('br'));
         });
     }
-    return input_fields;
+    return inputFields;
 }
 initialLoad()
