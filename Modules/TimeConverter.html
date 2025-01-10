@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../Resources/Pictures/DFTOOLS.png">
+    <meta name="description"
+        content="A tool for the conversion of time between fort mode and adventure mode both in days and ticks.">
+    <meta property="og:title" content="DF Tools: Time Converter">
+    <meta property="og:description" content="Time conversion tool for Dwarf Fortress modes.">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <script src="../js/Modules/TimeConverter_page.js" type="module"></script>
+
+    <header>
+        <a href="../index.html">Back</a>
+        <h1>Time Converter</h1>
+    </header>
+
+    <section>
+        <h2>What for?</h2>
+        <p>Fast time conversion between game modes ticks, plant growth units and time passed (days, hours and similar).</p>
+    </section>
+
+    <section>
+        <h2>How to use:</h2>
+        <ol>
+            <li>Write the time in ticks, plant growth units or normal time units.</li>
+            <li>Hit enter or click in other part of the web.</li>
+        </ol>
+        <p>The web will provide the translation of that into the rest of units.</p>
+        <p>The formulas come from the <a href="https://dwarffortresswiki.org/index.php/Time">time article</a>.</p>
+    </section>
+
+    <main>
+        <h2>Conversion zone</h2>
+        <form onsubmit="return false;">
+
+            <h3>General time</h3>
+            <table id="timeTable">
+                <tr>
+                    <th>Days</th>
+                    <th>Hours</th>
+                    <th>Minutes</th>
+                    <th>Seconds</th>
+                </tr>
+                <tr>
+                    <td><input type="number" min="0" value="0" id="daysTime" name="daysTime" unit="days"></td>
+                    <td><input type="number" min="0" value="0" id="hoursTime" name="hoursTime" unit="hours"></td>
+                    <td><input type="number" min="0" value="0" id="minutesTime" name="minutesTime" unit="minutes"></td>
+                    <td><input type="number" min="0" value="0" id="secondsTime" name="secondsTime" unit="seconds"></td>
+                </tr>
+            </table><br>
+            <label for="fortTicks">Fort mode ticks</label>
+            <input type="number" name="fortTicks" id="fortTicks" min="0" value="0"><br>
+            <label for="adventureTicks">Adventure mode ticks</label>
+            <input type="number" name="adventureTicks" id="adventureTicks" min="0" value="0"><br>
+            <label for="plantGrowth">Plant growth units (GROWDUR)</label>
+            <input type="number" name="plantGrowth" id="plantGrowth" min="0" value="0">
+        </form>
+    </main>
+
+</body>
+
+</html>
