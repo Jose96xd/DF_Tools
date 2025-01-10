@@ -7,6 +7,7 @@ Tools for modders and players.
     - [Temperature Converter](https://jose96xd.github.io/DF_Tools/Modules/TemperatureConverter.html): To convert temperature from in-game units to normal units.
     - [Layer Permit Checker](https://jose96xd.github.io/DF_Tools/Modules/LayerPermitChecker.html): To calculate the clothes and armor a creature can wear and help with modded clothes and layouts.
     - [Building ASCII Visualizer](https://jose96xd.github.io/DF_Tools/Modules/BuildingASCIIVisualizer.html): To have an interactive way of visualizing and generating buildings with ASCII.
+    - [Time Converter](https://jose96xd.github.io/DF_Tools/Modules/TimeConverter.html): To convert time units between ticks (both modes), plant growth units and in game time.
 
 I will be adding more as I finish the ones in development. Also, as I learn more js and CSS I will try to make them prettier and more efficient.
 For now, all the js is native with no external code, so I think it should (at least) be smallish.
@@ -29,6 +30,7 @@ A major refactor of everything will be done sooner than later.
     - [Temperature Converter](#temperature-converter)
     - [Layer Permit Checker](#layer-permit-checker)
     - [Building ASCII Visualizer](#building-ascii-visualizer)
+    - [Time Converter](#time-converter)
   - [Other resources](#other-resources)
 
 ## Modules
@@ -75,6 +77,13 @@ To have an interactive way of visualizing and generating buildings with ASCII.
 
 #### TODO list
 - Minor changes and fixes.
+
+### Time Converter
+[Time Converter](https://jose96xd.github.io/DF_Tools/Modules/TimeConverter.html)
+To convert time units between ticks (both modes), plant growth units and in game time.
+
+#### TODO list
+- Add a calendar interface to get the time that has passed between the start of the year and a selected date.
 
 ## Other resources
 Here, I will include small studies and other useful things that aren't exactly tools.
